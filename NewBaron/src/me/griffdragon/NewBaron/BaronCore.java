@@ -9,5 +9,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 		//todo
 		
 	}
-
+	
+	public String archer = "Archer";
+	
 }

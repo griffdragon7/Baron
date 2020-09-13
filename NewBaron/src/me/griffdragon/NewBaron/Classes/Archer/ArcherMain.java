@@ -7,15 +7,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.griffdragon.NewBaron.BaronCore;
-import me.griffdragon.NewBaron.Classnames;
 import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
 
 public class ArcherMain {
 
 	private final ClassConfigFunctions config;
+	
 	private final BaronCore main;
-	Classnames classnames;
-
+	
 	public ArcherMain(BaronCore main, ClassConfigFunctions config) {
 		this.config = config;
 		this.main = main;
@@ -25,7 +24,7 @@ public class ArcherMain {
 		ItemStack item = new ItemStack(Material.BOW);
 		ItemMeta itemMeta = item.getItemMeta();
 		itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-				"&a&lArcher &7- &8[&7"));
+				"&a&lArcher &7- &8[&7" + config.getClassLevel(p, main.archer)));
 
 		return item;
 	}
