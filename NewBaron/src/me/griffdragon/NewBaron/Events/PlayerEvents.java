@@ -24,7 +24,7 @@ public class PlayerEvents implements Listener {
 		Player p = e.getPlayer();
 
 		PlayerFiles file = new PlayerFiles(p);
-		if (file.getPlayerFile() == null) {
+		if (file.getPlayerFile().getString(p.getUniqueId().toString() + ".Info.Active") == null) {
 			files.setUpPlayerFile(p);
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "New player, creating their file...");
 		} else {
