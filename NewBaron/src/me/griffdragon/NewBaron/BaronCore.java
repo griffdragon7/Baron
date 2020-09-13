@@ -12,4 +12,10 @@ public class BaronCore extends JavaPlugin implements Listener {
 	
 	public String archer = "Archer";
 	
+	public String cyromancer = "Cyromancer";
+	
+	public String geomancer = "Geomancer";
+	
+	public String pyromancer = "Pyromancer";
+	
 }
