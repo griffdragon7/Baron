@@ -7,6 +7,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 
 	public void onEnable() {
 		//todo
+		
 	}
 
 }
