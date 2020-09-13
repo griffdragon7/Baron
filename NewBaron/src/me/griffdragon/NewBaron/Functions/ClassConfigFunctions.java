@@ -94,6 +94,10 @@ public class ClassConfigFunctions {
 		String uuid = p.getUniqueId().toString();
 		file.getPlayerFile().set(uuid + ".Classes." + classname + ".Exp", getExp(p, classname) + amount);
 		file.savePlayerFile();
+		if (getExp(p, classname) >= expToLevel(p)) {
+			levelUp(p, classname);
+		}
+		scaleExp(p);
 
 	}
 
@@ -103,6 +107,10 @@ public class ClassConfigFunctions {
 		String uuid = p.getUniqueId().toString();
 		file.getPlayerFile().set(uuid + ".Classes." + classname + ".Exp", getExp(p, classname) - amount);
 		file.savePlayerFile();
+		if (getExp(p, classname) >= expToLevel(p)) {
+			levelUp(p, classname);
+		}
+		scaleExp(p);
 	}
 
 	public void setExp(Player p, String classname, int amount) {
@@ -111,18 +119,29 @@ public class ClassConfigFunctions {
 		String uuid = p.getUniqueId().toString();
 		file.getPlayerFile().set(uuid + ".Classes." + classname + ".Exp", amount);
 		file.savePlayerFile();
+
+		if (getExp(p, classname) >= expToLevel(p)) {
+			levelUp(p, classname);
+		}
+		scaleExp(p);
+	}
+
+	public void levelUp(Player p, String classname) {
+		setLevel(p, classname, getLevel(p, classname) + 1);
+		setExp(p, classname, 0);
+		scaleExp(p);
 	}
 
 	public void scaleExp(Player p) {
 		// scales the EXP bar for a player's active class
 
 		p.setLevel(getClassLevel(p, getClass(p)));
-		p.setExp(getExp(p, getClass(p)) / expToLevel(p));
+		p.setExp((float) (getExp(p, getClass(p)) / expToLevel(p)));
 
 	}
 
-	public int expToLevel(Player p) {
-		return (int) (125 * (Math.pow(getClassLevel(p, getClass(p)), 3.1)));
+	public double expToLevel(Player p) {
+		return (125 * (Math.pow(getClassLevel(p, getClass(p)), 3.1)));
 	}
 
 }
