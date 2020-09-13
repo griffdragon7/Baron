@@ -32,5 +32,6 @@ public class PlayerEvents implements Listener {
 					.sendMessage(ChatColor.GRAY + "Player already has a player file, proceeding normally...");
 		}
 	}
+	
 
 }
