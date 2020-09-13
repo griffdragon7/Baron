@@ -1,5 +1,7 @@
 package me.griffdragon.NewBaron.Functions;
 
-public class ExpSystem {
+import org.bukkit.event.Listener;
+
+public class ExpSystem implements Listener {
 
 }

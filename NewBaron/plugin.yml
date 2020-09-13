@@ -1,0 +1,9 @@
+name: Baron
+main: me.griffdragon.NewBaron.BaronCore
+depend: 
+version: 1.16.2
+api-version: 1.16
+commands:
+   class:
+      description: Choose a class
+      usage: /<command>
