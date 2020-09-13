@@ -1,5 +1,7 @@
 package me.griffdragon.NewBaron.Functions;
 
-public class DamageSystem {
+import org.bukkit.event.Listener;
+
+public class DamageSystem implements Listener {
 
 }

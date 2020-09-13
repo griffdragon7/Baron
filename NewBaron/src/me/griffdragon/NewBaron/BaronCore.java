@@ -7,6 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.griffdragon.NewBaron.Events.PlayerEvents;
 import me.griffdragon.NewBaron.Events.WorldEvents;
 import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
+import me.griffdragon.NewBaron.Functions.DamageSystem;
+import me.griffdragon.NewBaron.Functions.ExpSystem;
 
 public class BaronCore extends JavaPlugin implements Listener {
 
@@ -14,14 +16,20 @@ public class BaronCore extends JavaPlugin implements Listener {
 
 	PlayerEvents playerEvents = new PlayerEvents(files);
 	WorldEvents worldEvents = new WorldEvents(this);
+	ExpSystem expSystem = new ExpSystem(files);
+	DamageSystem damageSystem = new DamageSystem();
 
 	public void onEnable() {
 		// todo
 
 		Bukkit.getServer().getPluginManager().registerEvents(playerEvents, this);
 		Bukkit.getServer().getPluginManager().registerEvents(worldEvents, this);
+		Bukkit.getServer().getPluginManager().registerEvents(damageSystem, this);
+		Bukkit.getServer().getPluginManager().registerEvents(expSystem, this);
 
 	}
+
+	// Use these to access classes in config files
 
 	public String archer = "Archer";
 
@@ -30,7 +38,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 	public String geomancer = "Geomancer";
 
 	public String pyromancer = "Pyromancer";
-	
+
 	public String warrior = "Warrior";
 
 }
