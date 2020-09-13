@@ -30,5 +30,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 	public String geomancer = "Geomancer";
 
 	public String pyromancer = "Pyromancer";
+	
+	public String warrior = "Warrior";
 
 }
