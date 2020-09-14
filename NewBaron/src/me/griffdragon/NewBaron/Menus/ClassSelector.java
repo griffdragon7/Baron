@@ -54,6 +54,7 @@ public class ClassSelector implements Listener {
 				if (e.getView().getTitle() == "Choose a class") {
 					e.setCancelled(true);
 					if (e.getCurrentItem() != null) {
+						// archer tree
 						if (e.getSlot() == 0) {
 							if (files.hasClass(p, main.archer)) {
 								files.setActiveClass(p, main.archer);
@@ -61,15 +62,45 @@ public class ClassSelector implements Listener {
 								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
 							}
 						}
+						// hunter
+						if (e.getSlot() == 0) {
+							if (files.hasClass(p, main.archer)) {
+								files.setActiveClass(p, main.archer);
+							} else {
+								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
+							}
+						}
+						// ranger
+						if (e.getSlot() == 0) {
+							if (files.hasClass(p, main.archer)) {
+								files.setActiveClass(p, main.archer);
+							} else {
+								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
+							}
+						}
+						// pyromancer
 						if (e.getSlot() == 1) {
+							if (files.hasClass(p, main.pyromancer)) {
+								files.setActiveClass(p, main.pyromancer);
+							} else {
+								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
+							}
+						}
+						if (e.getSlot() == 10) {
 							if (files.hasClass(p, main.cryomancer)) {
 								files.setActiveClass(p, main.cryomancer);
 							} else {
 								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
 							}
-						} else {
-
 						}
+						if (e.getSlot() == 19) {
+							if (files.hasClass(p, main.geomancer)) {
+								files.setActiveClass(p, main.geomancer);
+							} else {
+								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
+							}
+						}
+
 					}
 				}
 
