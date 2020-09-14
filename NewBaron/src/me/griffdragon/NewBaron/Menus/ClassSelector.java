@@ -58,22 +58,25 @@ public class ClassSelector implements Listener {
 						if (e.getSlot() == 0) {
 							if (files.hasClass(p, main.archer)) {
 								files.setActiveClass(p, main.archer);
+								p.sendMessage(ChatColor.GREEN + "Selected class Archer.");
 							} else {
 								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
 							}
 						}
 						// hunter
-						if (e.getSlot() == 0) {
-							if (files.hasClass(p, main.archer)) {
-								files.setActiveClass(p, main.archer);
+						if (e.getSlot() == 9) {
+							if (files.hasClass(p, main.hunter)) {
+								files.setActiveClass(p, main.hunter);
+								p.sendMessage(ChatColor.GREEN + "Selected class Hunter.");
 							} else {
 								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
 							}
 						}
 						// ranger
-						if (e.getSlot() == 0) {
-							if (files.hasClass(p, main.archer)) {
-								files.setActiveClass(p, main.archer);
+						if (e.getSlot() == 18) {
+							if (files.hasClass(p, main.ranger)) {
+								files.setActiveClass(p, main.ranger);
+								p.sendMessage(ChatColor.GREEN + "Selected class Ranger.");
 							} else {
 								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
 							}
@@ -82,6 +85,7 @@ public class ClassSelector implements Listener {
 						if (e.getSlot() == 1) {
 							if (files.hasClass(p, main.pyromancer)) {
 								files.setActiveClass(p, main.pyromancer);
+								p.sendMessage(ChatColor.GREEN + "Selected class Pyromancer.");
 							} else {
 								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
 							}
@@ -89,6 +93,7 @@ public class ClassSelector implements Listener {
 						if (e.getSlot() == 10) {
 							if (files.hasClass(p, main.cryomancer)) {
 								files.setActiveClass(p, main.cryomancer);
+								p.sendMessage(ChatColor.GREEN + "Selected class Cryomancer.");
 							} else {
 								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
 							}
@@ -96,6 +101,7 @@ public class ClassSelector implements Listener {
 						if (e.getSlot() == 19) {
 							if (files.hasClass(p, main.geomancer)) {
 								files.setActiveClass(p, main.geomancer);
+								p.sendMessage(ChatColor.GREEN + "Selected class Geomancer.");
 							} else {
 								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
 							}
