@@ -7,7 +7,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.md_5.bungee.api.ChatColor;
 
 public class PhysicalDamage {
+	private final ItemGenerator items;
 
+	public PhysicalDamage(ItemGenerator items) {
+		this.items = items;
+	}
 	public int tallyStat(Player p) {
 		int amount = 0;
 		try {
@@ -57,7 +61,7 @@ public class PhysicalDamage {
 		for (int x = 0; x < im.getLore().size(); x++) {
 			try {
 				if (ChatColor.translateAlternateColorCodes('&', " * &7Physical Damage: &c").equalsIgnoreCase(im
-						.getLore().get(x).substring(2, ChatColor.stripColor(ItemGenerator.healthLore).length() + 15))) {
+						.getLore().get(x).substring(2, ChatColor.stripColor(items.healthLore).length() + 15))) {
 
 					return Integer.parseInt(im.getLore().get(x).substring(im.getLore().get(x).lastIndexOf("c") + 1));
 

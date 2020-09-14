@@ -7,7 +7,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.md_5.bungee.api.ChatColor;
 
 public class Luck {
+	private final ItemGenerator items;
 
+	public Luck(ItemGenerator items) {
+		this.items = items;
+	}
 	public int tallyStat(Player p) {
 		int amount = 0;
 		try {
@@ -57,7 +61,7 @@ public class Luck {
 		for (int x = 0; x < im.getLore().size(); x++) {
 			try {
 				if (ChatColor.translateAlternateColorCodes('&', " * &7Luck: &a").equalsIgnoreCase(im.getLore().get(x)
-						.substring(2, ChatColor.stripColor(ItemGenerator.healthLore).length() + 4))) {
+						.substring(2, ChatColor.stripColor(items.healthLore).length() + 4))) {
 
 					return Integer.parseInt(im.getLore().get(x).substring(im.getLore().get(x).lastIndexOf("a") + 1));
 

@@ -7,6 +7,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.md_5.bungee.api.ChatColor;
 
 public class Speed {
+	private final ItemGenerator items;
+
+	public Speed(ItemGenerator items) {
+		this.items = items;
+	}
 
 	public int tallyStat(Player p) {
 		int amount = 0;
@@ -56,8 +61,8 @@ public class Speed {
 	public int getAmount(ItemMeta im) {
 		for (int x = 0; x < im.getLore().size(); x++) {
 			try {
-				if (ChatColor.translateAlternateColorCodes('&', " * &7Speed: &b").equalsIgnoreCase(im.getLore().get(x)
-						.substring(2, ChatColor.stripColor(ItemGenerator.healthLore).length() + 5))) {
+				if (ChatColor.translateAlternateColorCodes('&', " * &7Speed: &b").equalsIgnoreCase(
+						im.getLore().get(x).substring(2, ChatColor.stripColor(items.healthLore).length() + 5))) {
 
 					return +Integer.parseInt(im.getLore().get(x).substring(im.getLore().get(x).lastIndexOf("b") + 1));
 

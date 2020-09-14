@@ -10,9 +10,11 @@ import net.md_5.bungee.api.ChatColor;
 public class Health {
 
 	private final BaronCore main;
+	private final ItemGenerator items;
 
-	public Health(BaronCore main) {
+	public Health(BaronCore main, ItemGenerator items) {
 		this.main = main;
+		this.items = items;
 	}
 
 	public int tallyStat(Player p) {
@@ -66,7 +68,7 @@ public class Health {
 			try {
 				if (ChatColor.translateAlternateColorCodes('&', " * &7Health: &a")
 						.equalsIgnoreCase(p.getInventory().getHelmet().getItemMeta().getLore().get(x).substring(2,
-								ChatColor.stripColor(ItemGenerator.healthLore).length() + 6))) {
+								ChatColor.stripColor(items.healthLore).length() + 6))) {
 					if (im.getLore().get(x).substring(im.getLore().get(x).length() - 1).equalsIgnoreCase("%")) {
 						double y = Integer.parseInt(im.getLore().get(x).substring(
 								im.getLore().get(x).lastIndexOf("a") + 1, im.getLore().get(x).lastIndexOf("%")));

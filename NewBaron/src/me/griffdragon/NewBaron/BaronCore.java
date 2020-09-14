@@ -28,20 +28,18 @@ import net.md_5.bungee.api.ChatColor;
 public class BaronCore extends JavaPlugin implements Listener {
 
 	ClassConfigFunctions files = new ClassConfigFunctions();
-
-	CritDamage cd = new CritDamage();
-	CritRate cr = new CritRate();
-	Health hp = new Health(this);
-	Luck lc = new Luck();
-	MagicDamage md = new MagicDamage();
-	PhysicalDamage pd = new PhysicalDamage();
-	Speed sp = new Speed();
+	ItemGenerator items = new ItemGenerator();
+	CritDamage cd = new CritDamage(items);
+	CritRate cr = new CritRate(items);
+	Health hp = new Health(this, items);
+	Luck lc = new Luck(items);
+	MagicDamage md = new MagicDamage(items);
+	PhysicalDamage pd = new PhysicalDamage(items);
+	Speed sp = new Speed(items);
 
 	ArcherMain archermain = new ArcherMain(this, files);
 
 	public StatsMain stats = new StatsMain(cd, cr, hp, lc, md, pd, sp, this, archermain, files);
-
-	ItemGenerator items = new ItemGenerator();
 
 	PlayerEvents playerEvents = new PlayerEvents(files, stats, this);
 	WorldEvents worldEvents = new WorldEvents(this);
@@ -56,7 +54,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 			playerEvents.bars.put(ps, bar);
 
 		}
-
+		items.putMaps();
 		Bukkit.getServer().getPluginManager().registerEvents(playerEvents, this);
 		Bukkit.getServer().getPluginManager().registerEvents(worldEvents, this);
 		Bukkit.getServer().getPluginManager().registerEvents(damageSystem, this);
@@ -116,7 +114,6 @@ public class BaronCore extends JavaPlugin implements Listener {
 				}
 			}
 		}
-		
 
 		return true;
 	}

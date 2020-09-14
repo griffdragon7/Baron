@@ -8,6 +8,12 @@ import net.md_5.bungee.api.ChatColor;
 
 public class CritRate {
 
+	private final ItemGenerator items;
+
+	public CritRate(ItemGenerator items) {
+		this.items = items;
+	}
+
 	public int tallyStat(Player p) {
 		int amount = 0;
 		try {
@@ -56,8 +62,8 @@ public class CritRate {
 	public int getAmount(ItemMeta im) {
 		for (int x = 0; x < im.getLore().size(); x++) {
 			try {
-				if (ChatColor.translateAlternateColorCodes('&', " * &7Crit Rate: &e").equalsIgnoreCase(im.getLore()
-						.get(x).substring(2, ChatColor.stripColor(ItemGenerator.healthLore).length() + 9))) {
+				if (ChatColor.translateAlternateColorCodes('&', " * &7Crit Rate: &e").equalsIgnoreCase(
+						im.getLore().get(x).substring(2, ChatColor.stripColor(items.healthLore).length() + 9))) {
 					if (im.getLore().get(x).substring(im.getLore().get(x).length() - 1).equalsIgnoreCase("%")) {
 						double y = Integer.parseInt(im.getLore().get(x).substring(
 								im.getLore().get(x).lastIndexOf("e") + 1, im.getLore().get(x).lastIndexOf("%")));

@@ -7,7 +7,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.md_5.bungee.api.ChatColor;
 
 public class CritDamage {
+	private final ItemGenerator items;
 
+	public CritDamage(ItemGenerator items) {
+		this.items = items;
+	}
 	public int tallyStat(Player p) {
 		int amount = 0;
 		try {
@@ -58,7 +62,7 @@ public class CritDamage {
 		for (int x = 0; x < im.getLore().size(); x++) {
 			try {
 				if (ChatColor.translateAlternateColorCodes('&', " * &7Crit Damage: &c").equalsIgnoreCase(im.getLore()
-						.get(x).substring(2, ChatColor.stripColor(ItemGenerator.healthLore).length() + 11))) {
+						.get(x).substring(2, ChatColor.stripColor(items.healthLore).length() + 11))) {
 					if (im.getLore().get(x).substring(im.getLore().get(x).length() - 1).equalsIgnoreCase("%")) {
 						double y = Integer.parseInt(im.getLore().get(x).substring(
 								im.getLore().get(x).lastIndexOf("c") + 1, im.getLore().get(x).lastIndexOf("%")));

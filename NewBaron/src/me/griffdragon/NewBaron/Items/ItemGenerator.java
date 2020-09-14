@@ -12,43 +12,43 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemGenerator {
 
-	public static String healthLore = ChatColor.translateAlternateColorCodes('&', " * &7Health: &a");
-	public static String physDamageLore = ChatColor.translateAlternateColorCodes('&', " * &7Physical Damage: &c");
-	public static String magDamageLore = ChatColor.translateAlternateColorCodes('&', " * &7Magic Damage: &d");
-	public static String defenceLore = ChatColor.translateAlternateColorCodes('&', " * &7Defence: &e");
-	public static String crLore = ChatColor.translateAlternateColorCodes('&', " * &7Crit Rate: &e");
-	public static String cdLore = ChatColor.translateAlternateColorCodes('&', " * &7Crit Damage: &c");
-	public static String luckLore = ChatColor.translateAlternateColorCodes('&', " * &7Luck: &a");
-	public static String speedLore = ChatColor.translateAlternateColorCodes('&', " * &7Speed: &b");
-	public static String jumpLore = ChatColor.translateAlternateColorCodes('&', " * &7Jump: &d");
+	public String healthLore = ChatColor.translateAlternateColorCodes('&', " * &7Health: &a");
+	public String physDamageLore = ChatColor.translateAlternateColorCodes('&', " * &7Physical Damage: &c");
+	public String magDamageLore = ChatColor.translateAlternateColorCodes('&', " * &7Magic Damage: &d");
+	public String defenceLore = ChatColor.translateAlternateColorCodes('&', " * &7Defence: &e");
+	public String crLore = ChatColor.translateAlternateColorCodes('&', " * &7Crit Rate: &e");
+	public String cdLore = ChatColor.translateAlternateColorCodes('&', " * &7Crit Damage: &c");
+	public String luckLore = ChatColor.translateAlternateColorCodes('&', " * &7Luck: &a");
+	public String speedLore = ChatColor.translateAlternateColorCodes('&', " * &7Speed: &b");
+	public String jumpLore = ChatColor.translateAlternateColorCodes('&', " * &7Jump: &d");
 
-	static HashMap<String, String> tierColor = new HashMap<String, String>();
+	HashMap<String, String> tierColor = new HashMap<String, String>();
 
-	static HashMap<String, Material> helmets = new HashMap<String, Material>();
-	static HashMap<String, Material> chest = new HashMap<String, Material>();
-	static HashMap<String, Material> legs = new HashMap<String, Material>();
-	static HashMap<String, Material> boots = new HashMap<String, Material>();
+	HashMap<String, Material> helmets = new HashMap<String, Material>();
+	HashMap<String, Material> chest = new HashMap<String, Material>();
+	HashMap<String, Material> legs = new HashMap<String, Material>();
+	HashMap<String, Material> boots = new HashMap<String, Material>();
 
-	static HashMap<String, Double> healthMultiplier = new HashMap<String, Double>();
-	static HashMap<String, Double> physMultiplier = new HashMap<String, Double>();
-	static HashMap<String, Double> magMultiplier = new HashMap<String, Double>();
-	static HashMap<String, Double> defMultiplier = new HashMap<String, Double>();
-	static HashMap<String, Double> crMultiplier = new HashMap<String, Double>();
-	static HashMap<String, Double> cdMultiplier = new HashMap<String, Double>();
-	static HashMap<String, Double> speedMultiplier = new HashMap<String, Double>();
-	static HashMap<String, Double> luckMultiplier = new HashMap<String, Double>();
-	static HashMap<String, Double> jumpMultiplier = new HashMap<String, Double>();
+	HashMap<String, Double> healthMultiplier = new HashMap<String, Double>();
+	HashMap<String, Double> physMultiplier = new HashMap<String, Double>();
+	HashMap<String, Double> magMultiplier = new HashMap<String, Double>();
+	HashMap<String, Double> defMultiplier = new HashMap<String, Double>();
+	HashMap<String, Double> crMultiplier = new HashMap<String, Double>();
+	HashMap<String, Double> cdMultiplier = new HashMap<String, Double>();
+	HashMap<String, Double> speedMultiplier = new HashMap<String, Double>();
+	HashMap<String, Double> luckMultiplier = new HashMap<String, Double>();
+	HashMap<String, Double> jumpMultiplier = new HashMap<String, Double>();
 
-	static HashMap<String, Double> healthPercentMultiplier = new HashMap<String, Double>();
+	HashMap<String, Double> healthPercentMultiplier = new HashMap<String, Double>();
 
-	static ArrayList<String> tier1Stats = new ArrayList<String>();
-	static ArrayList<String> tier2Stats = new ArrayList<String>();
-	static ArrayList<String> tier3Stats = new ArrayList<String>();
-	static ArrayList<String> tier4Stats = new ArrayList<String>();
+	ArrayList<String> tier1Stats = new ArrayList<String>();
+	ArrayList<String> tier2Stats = new ArrayList<String>();
+	ArrayList<String> tier3Stats = new ArrayList<String>();
+	ArrayList<String> tier4Stats = new ArrayList<String>();
 
-	static HashMap<Integer, String> possibleStats = new HashMap<Integer, String>();
+	HashMap<Integer, String> possibleStats = new HashMap<Integer, String>();
 
-	public static void putMaps() {
+	public void putMaps() {
 		helmets.put("Common", Material.LEATHER_HELMET);
 		helmets.put("Uncommon", Material.LEATHER_HELMET);
 		helmets.put("Rare", Material.LEATHER_HELMET);
