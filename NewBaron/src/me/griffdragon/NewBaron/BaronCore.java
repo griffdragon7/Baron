@@ -23,19 +23,11 @@ import me.griffdragon.NewBaron.Items.Luck;
 import me.griffdragon.NewBaron.Items.MagicDamage;
 import me.griffdragon.NewBaron.Items.PhysicalDamage;
 import me.griffdragon.NewBaron.Items.Speed;
+import me.griffdragon.NewBaron.Menus.StatsMenu;
 import me.griffdragon.NewBaron.Stats.StatsMain;
 import net.md_5.bungee.api.ChatColor;
 
 public class BaronCore extends JavaPlugin implements Listener {
-
-	/////////////////////////////////
-	// TODO TOMORROW: Update stats //
-	// when a player clicks and //
-	// then store the data to //
-	// a hashmap and save it to a //
-	// config after join/leave //
-	// events //
-	/////////////////////////////////
 
 	ClassConfigFunctions files = new ClassConfigFunctions();
 	ItemGenerator items = new ItemGenerator();
@@ -48,6 +40,8 @@ public class BaronCore extends JavaPlugin implements Listener {
 	Speed sp = new Speed(items);
 	Defence df = new Defence(items);
 
+	StatsMenu statsmenu = new StatsMenu(files);
+
 	ArcherMain archermain = new ArcherMain(this, files);
 
 	public StatsMain stats = new StatsMain(df, cd, cr, hp, lc, md, pd, sp, this, archermain, files);
@@ -58,6 +52,16 @@ public class BaronCore extends JavaPlugin implements Listener {
 	DamageSystem damageSystem = new DamageSystem();
 
 	public void onEnable() {
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+			StatsMain.Health.put(p, stats.getHealth(p));
+			StatsMain.Defence.put(p, stats.getDefence(p));
+			StatsMain.Luck.put(p, stats.getLuck(p));
+			StatsMain.Speed.put(p, stats.getSpeed(p));
+			StatsMain.CritRate.put(p, stats.getCritRate(p));
+			StatsMain.CritDamage.put(p, stats.getCritDamage(p));
+			StatsMain.PhysicalDamage.put(p, stats.getPhysicalDamage(p));
+			StatsMain.MagicDamage.put(p, stats.getMagicDamage(p));
+		}
 
 		for (Player ps : Bukkit.getServer().getOnlinePlayers()) {
 			BossBar bar = playerEvents.b(ps);
@@ -94,6 +98,19 @@ public class BaronCore extends JavaPlugin implements Listener {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]) {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
+			if (cmd.getName().equalsIgnoreCase("stats")) {
+				if (args.length == 1) {
+					Player tp = Bukkit.getPlayer(args[0]);
+					if (tp.isOnline()) {
+						tp.openInventory(statsmenu.inv(tp));
+					} else {
+						p.sendMessage(ChatColor.RED + "That player is not online at the moment, sorry!");
+					}
+				} else {
+					p.openInventory(statsmenu.inv(p));
+				}
+
+			}
 			if (cmd.getName().equalsIgnoreCase("baron")) {
 				if (args.length == 5) {
 					if (args[0].equalsIgnoreCase("item")) {
@@ -129,11 +146,16 @@ public class BaronCore extends JavaPlugin implements Listener {
 		return true;
 	}
 
+	public void statsText(Player p) {
+
+	}
+
 	public void helpText(Player p) {
 		p.sendMessage(ChatColor.translateAlternateColorCodes('&',
 				"&8»&8&m            &a&lBaron Commands&8&m            &8«"));
 		p.sendMessage(
 				ChatColor.translateAlternateColorCodes('&', "&7 - /baron item {name} {item type} {tier} {amount}"));
+		p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7 - /stats [Player]"));
 		p.sendMessage(ChatColor.translateAlternateColorCodes('&',
 				"&8»&8&m                                                 &8«"));
 	}

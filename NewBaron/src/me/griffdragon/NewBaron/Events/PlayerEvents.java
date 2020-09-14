@@ -36,7 +36,7 @@ public class PlayerEvents implements Listener {
 
 	public BossBar b(Player p) {
 
-		float maxHP = stats.getHealth(p);
+		float maxHP = StatsMain.Health.get(p);
 		float health = (float) p.getHealth();
 		float proportion = health / 20;
 		float finalHP = maxHP * proportion;
@@ -68,7 +68,7 @@ public class PlayerEvents implements Listener {
 				new BukkitRunnable() {
 
 					public void run() {
-						double maxHP = stats.getHealth(p);
+						double maxHP = StatsMain.Health.get(p);
 						double health = p.getHealth();
 						double proportion = health / 20;
 						double finalHP = maxHP * proportion;
@@ -92,7 +92,7 @@ public class PlayerEvents implements Listener {
 
 				@Override
 				public void run() {
-					double maxHP = stats.getHealth(p);
+					double maxHP = StatsMain.Health.get(p);
 					double health = p.getHealth();
 					double proportion = health / 20;
 					double finalHP = maxHP * proportion;

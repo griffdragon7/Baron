@@ -7,6 +7,6 @@ commands:
    baron:
       description: base command
       usage: /<command>
-   customitem:
-      description: base command
+   stats:
+      description: check the stats of a player
       usage: /<command>
