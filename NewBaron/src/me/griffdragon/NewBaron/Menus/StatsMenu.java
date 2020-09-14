@@ -50,7 +50,7 @@ public class StatsMenu {
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&c »&7 Class: " + files.getClass(p)));
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&c »&7 Level: " + files.getLevel(p, files.getClass(p))));
 		lore.add(ChatColor.translateAlternateColorCodes('&',
-				"&c »&7 EXP: " + files.getExp(p, files.getClass(p)) + "/" + files.expToLevel(p)));
+				"&c »&7 EXP: " + files.getExp(p, files.getClass(p)) + "/" + (int) files.expToLevel(p)));
 
 		im.setLore(lore);
 

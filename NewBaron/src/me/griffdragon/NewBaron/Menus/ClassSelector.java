@@ -158,7 +158,7 @@ public class ClassSelector implements Listener {
 		ItemMeta im = i.getItemMeta();
 
 		im.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-				"&a&l" + className + "&8 - &7[" + files.getLevel(p, className) + "]"));
+				color + "&l" + className + "&8 - &7[" + files.getLevel(p, className) + "]"));
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&aClass Info:"));
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&a * &7Class Level: &a" + files.getLevel(p, className)));
