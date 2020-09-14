@@ -26,7 +26,17 @@ import me.griffdragon.NewBaron.Stats.StatsMain;
 import net.md_5.bungee.api.ChatColor;
 
 public class BaronCore extends JavaPlugin implements Listener {
-
+	
+	/////////////////////////////////
+	// TODO TOMORROW: Update stats //
+	// when a player clicks and    //
+	// then store the data to      //
+	// a hashmap and save it to a  //
+	// config after join/leave     //
+	// events                      //
+	/////////////////////////////////
+	
+	
 	ClassConfigFunctions files = new ClassConfigFunctions();
 	ItemGenerator items = new ItemGenerator();
 	CritDamage cd = new CritDamage(items);
