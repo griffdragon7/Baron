@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.griffdragon.NewBaron.BaronCore;
@@ -105,11 +106,41 @@ public class PlayerEvents implements Listener {
 		}
 
 	}
-
+	
+	@EventHandler
+	public void playerLeaveEvent(PlayerQuitEvent e) {
+		Player p = e.getPlayer();
+		
+		StatsMain.Health.remove(p);
+		StatsMain.Defence.remove(p);
+		StatsMain.Speed.remove(p);
+		StatsMain.Luck.remove(p);
+		StatsMain.CritRate.remove(p);
+		StatsMain.CritDamage.remove(p);
+		StatsMain.PhysicalDamage.remove(p);
+		StatsMain.MagicDamage.remove(p);
+		
+		stats.updateStats(p);
+		
+	}
+	
 	@EventHandler
 	public void setupPlayerFiles(PlayerJoinEvent e) {
-
 		Player p = e.getPlayer();
+		// adds a player to a stat when they join
+
+		StatsMain.Health.put(p, stats.getHealth(p));
+		StatsMain.Defence.put(p, stats.getDefence(p));
+		StatsMain.Luck.put(p, stats.getLuck(p));
+		StatsMain.Speed.put(p, stats.getSpeed(p));
+		StatsMain.CritRate.put(p, stats.getCritRate(p));
+		StatsMain.CritDamage.put(p, stats.getCritDamage(p));
+		StatsMain.PhysicalDamage.put(p, stats.getPhysicalDamage(p));
+		StatsMain.MagicDamage.put(p, stats.getMagicDamage(p));
+		
+		stats.updateStats(p);
+
+		/// sets up a players file the first time they join
 
 		PlayerFiles file = new PlayerFiles(p);
 		if (file.getPlayerFile().getString(p.getUniqueId().toString() + ".Info.Active") == null) {

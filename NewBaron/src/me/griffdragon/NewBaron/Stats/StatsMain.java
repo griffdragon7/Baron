@@ -7,8 +7,10 @@ import org.bukkit.entity.Player;
 import me.griffdragon.NewBaron.BaronCore;
 import me.griffdragon.NewBaron.Classes.Archer.ArcherMain;
 import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
+import me.griffdragon.NewBaron.Functions.PlayerFiles;
 import me.griffdragon.NewBaron.Items.CritDamage;
 import me.griffdragon.NewBaron.Items.CritRate;
+import me.griffdragon.NewBaron.Items.Defence;
 import me.griffdragon.NewBaron.Items.Health;
 import me.griffdragon.NewBaron.Items.Luck;
 import me.griffdragon.NewBaron.Items.MagicDamage;
@@ -30,13 +32,24 @@ public class StatsMain {
 	private final MagicDamage magicDamage;
 	private final PhysicalDamage physicalDamage;
 	private final Speed speed;
+	private final Defence defence;
+	
+	public static HashMap<Player, Integer> Health = new HashMap<Player, Integer>();
+	public static HashMap<Player, Integer> Defence = new HashMap<Player, Integer>();
+	public static HashMap<Player, Integer> Luck = new HashMap<Player, Integer>();
+	public static HashMap<Player, Integer> Speed = new HashMap<Player, Integer>();
+	public static HashMap<Player, Integer> CritRate = new HashMap<Player, Integer>();
+	public static HashMap<Player, Integer> CritDamage = new HashMap<Player, Integer>();
+	public static HashMap<Player, Integer> PhysicalDamage = new HashMap<Player, Integer>();
+	public static HashMap<Player, Integer> MagicDamage = new HashMap<Player, Integer>();
 
-	public StatsMain(CritDamage cd, CritRate cr, Health hp, Luck lc, MagicDamage md, PhysicalDamage pd, Speed sp,
-			BaronCore main, ArcherMain archer, ClassConfigFunctions files) {
+	public StatsMain(Defence df, CritDamage cd, CritRate cr, Health hp, Luck lc, MagicDamage md, PhysicalDamage pd,
+			Speed sp, BaronCore main, ArcherMain archer, ClassConfigFunctions files) {
 		this.main = main;
 		this.archer = archer;
 		this.files = files;
 
+		this.defence = df;
 		this.critDamage = cd;
 		this.critRate = cr;
 		this.health = hp;
@@ -44,6 +57,21 @@ public class StatsMain {
 		this.magicDamage = md;
 		this.physicalDamage = pd;
 		this.speed = sp;
+	}
+
+	public void updateStats(Player p) {
+		PlayerFiles file = new PlayerFiles(p);
+
+		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.Health", getHealth(p));
+		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.PhysicalDamage", getPhysicalDamage(p));
+		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.MagicDamage", getMagicDamage(p));
+		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.Defence", getDefence(p));
+		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.Luck", getLuck(p));
+		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.Speed", getSpeed(p));
+		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.CritRate", getCritRate(p));
+		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.CritDamage", getCritDamage(p));
+
+		file.savePlayerFile();
 	}
 
 	public int getHealth(Player p) {
@@ -72,6 +100,10 @@ public class StatsMain {
 
 	public int getLuck(Player p) {
 		return getBaseLuck(p) + luck.tallyStat(p);
+	}
+
+	public int getDefence(Player p) {
+		return getBaseDefence(p) + defence.tallyStat(p);
 	}
 
 	public int getBaseHealth(Player p) {
@@ -146,6 +178,17 @@ public class StatsMain {
 
 		HashMap<String, Integer> statModifier = new HashMap<String, Integer>();
 		statModifier.put(main.archer, archer.speedModifier);
+
+		return statModifier.get(files.getClass(p)) * files.getClassLevel(p, files.getClass(p))
+				+ baseStat.get(files.getClass(p));
+	}
+
+	public int getBaseDefence(Player p) {
+		HashMap<String, Integer> baseStat = new HashMap<String, Integer>();
+		baseStat.put(main.archer, archer.Defence);
+
+		HashMap<String, Integer> statModifier = new HashMap<String, Integer>();
+		statModifier.put(main.archer, archer.DefenceModifier);
 
 		return statModifier.get(files.getClass(p)) * files.getClassLevel(p, files.getClass(p))
 				+ baseStat.get(files.getClass(p));

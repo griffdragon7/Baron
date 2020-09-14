@@ -16,6 +16,7 @@ import me.griffdragon.NewBaron.Functions.DamageSystem;
 import me.griffdragon.NewBaron.Functions.ExpSystem;
 import me.griffdragon.NewBaron.Items.CritDamage;
 import me.griffdragon.NewBaron.Items.CritRate;
+import me.griffdragon.NewBaron.Items.Defence;
 import me.griffdragon.NewBaron.Items.Health;
 import me.griffdragon.NewBaron.Items.ItemGenerator;
 import me.griffdragon.NewBaron.Items.Luck;
@@ -26,17 +27,16 @@ import me.griffdragon.NewBaron.Stats.StatsMain;
 import net.md_5.bungee.api.ChatColor;
 
 public class BaronCore extends JavaPlugin implements Listener {
-	
+
 	/////////////////////////////////
 	// TODO TOMORROW: Update stats //
-	// when a player clicks and    //
-	// then store the data to      //
-	// a hashmap and save it to a  //
-	// config after join/leave     //
-	// events                      //
+	// when a player clicks and //
+	// then store the data to //
+	// a hashmap and save it to a //
+	// config after join/leave //
+	// events //
 	/////////////////////////////////
-	
-	
+
 	ClassConfigFunctions files = new ClassConfigFunctions();
 	ItemGenerator items = new ItemGenerator();
 	CritDamage cd = new CritDamage(items);
@@ -46,10 +46,11 @@ public class BaronCore extends JavaPlugin implements Listener {
 	MagicDamage md = new MagicDamage(items);
 	PhysicalDamage pd = new PhysicalDamage(items);
 	Speed sp = new Speed(items);
+	Defence df = new Defence(items);
 
 	ArcherMain archermain = new ArcherMain(this, files);
 
-	public StatsMain stats = new StatsMain(cd, cr, hp, lc, md, pd, sp, this, archermain, files);
+	public StatsMain stats = new StatsMain(df, cd, cr, hp, lc, md, pd, sp, this, archermain, files);
 
 	PlayerEvents playerEvents = new PlayerEvents(files, stats, this);
 	WorldEvents worldEvents = new WorldEvents(this);
