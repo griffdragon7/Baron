@@ -11,6 +11,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.griffdragon.NewBaron.Classes.Archer.ArcherMain;
+import me.griffdragon.NewBaron.Classes.Cyromancer.CyroMain;
+import me.griffdragon.NewBaron.Classes.Geomancer.GeoMain;
+import me.griffdragon.NewBaron.Classes.Hunter.HunterMain;
+import me.griffdragon.NewBaron.Classes.Pyromancer.PyroMain;
+import me.griffdragon.NewBaron.Classes.Ranger.RangerMain;
 import me.griffdragon.NewBaron.Events.PlayerEvents;
 import me.griffdragon.NewBaron.Events.WorldEvents;
 import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
@@ -33,6 +38,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class BaronCore extends JavaPlugin implements Listener {
 
+	// register items and functions/stats
 	ClassConfigFunctions files = new ClassConfigFunctions();
 	ItemGenerator items = new ItemGenerator();
 	CritDamage cd = new CritDamage(items);
@@ -46,18 +52,27 @@ public class BaronCore extends JavaPlugin implements Listener {
 
 	StatsMenu statsmenu = new StatsMenu(files);
 
-	ArcherMain archermain = new ArcherMain(this, files);
+	// register classes
+	ArcherMain archerMain = new ArcherMain(this, files);
+	HunterMain hunterMain = new HunterMain();
+	RangerMain rangerMain = new RangerMain();
 
-	public StatsMain stats = new StatsMain(df, cd, cr, hp, lc, md, pd, sp, this, archermain, files);
+	PyroMain pyromancerMain = new PyroMain();
+	CyroMain cryomancerMain = new CyroMain();
+	GeoMain geomancerMain = new GeoMain();
+
+	public StatsMain stats = new StatsMain(df, cd, cr, hp, lc, md, pd, sp, this, archerMain, files);
 
 	BasicMobs basicmobs = new BasicMobs();
 
+	// register events
 	PlayerEvents playerEvents = new PlayerEvents(files, stats, this);
 	WorldEvents worldEvents = new WorldEvents(this);
 	ExpSystem expSystem = new ExpSystem(files);
 	DamageSystem damageSystem = new DamageSystem(files, basicmobs);
 
-	ClassSelector classSelector = new ClassSelector(files, archermain, this);
+	ClassSelector classSelector = new ClassSelector(files, geomancerMain, pyromancerMain, cryomancerMain, hunterMain,
+			rangerMain, archerMain, this);
 
 	public static ArrayList<String> physicalClasses = new ArrayList<>();
 	public static ArrayList<String> magicalClasses = new ArrayList<>();
@@ -102,6 +117,10 @@ public class BaronCore extends JavaPlugin implements Listener {
 	// Use these to access classes in config files
 
 	public String archer = "Archer";
+
+	public String hunter = "Hunter";
+
+	public String ranger = "Ranger";
 
 	public String cryomancer = "Cryomancer";
 

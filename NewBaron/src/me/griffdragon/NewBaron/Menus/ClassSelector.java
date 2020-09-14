@@ -14,6 +14,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.griffdragon.NewBaron.BaronCore;
 import me.griffdragon.NewBaron.Classes.Archer.ArcherMain;
+import me.griffdragon.NewBaron.Classes.Cyromancer.CyroMain;
+import me.griffdragon.NewBaron.Classes.Geomancer.GeoMain;
+import me.griffdragon.NewBaron.Classes.Hunter.HunterMain;
+import me.griffdragon.NewBaron.Classes.Pyromancer.PyroMain;
+import me.griffdragon.NewBaron.Classes.Ranger.RangerMain;
 import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
 import net.md_5.bungee.api.ChatColor;
 
@@ -21,12 +26,24 @@ public class ClassSelector implements Listener {
 
 	private final ClassConfigFunctions files;
 	private final ArcherMain archer;
+	private final GeoMain geomancer;
+	private final PyroMain pyromancer;
+	private final CyroMain cryomancer;
+	private final HunterMain hunter;
+	private final RangerMain ranger;
+
 	private final BaronCore main;
 
-	public ClassSelector(ClassConfigFunctions files, ArcherMain archer, BaronCore main) {
+	public ClassSelector(ClassConfigFunctions files, GeoMain geo, PyroMain pyro, CyroMain cryo, HunterMain hunter,
+			RangerMain ranger, ArcherMain archer, BaronCore main) {
 		this.files = files;
 		this.archer = archer;
 		this.main = main;
+		this.geomancer = geo;
+		this.pyromancer = pyro;
+		this.cryomancer = cryo;
+		this.hunter = hunter;
+		this.ranger = ranger;
 	}
 
 	@EventHandler
@@ -51,7 +68,7 @@ public class ClassSelector implements Listener {
 								p.sendMessage(ChatColor.RED + "You have not unlocked this class yet!");
 							}
 						} else {
-							
+
 						}
 					}
 				}
@@ -67,18 +84,26 @@ public class ClassSelector implements Listener {
 				selectorItem("Archer", p, Material.BOW, "A ranged class focused mainly on",
 						"single target burst damage, great for defeating", "bosses or other strong enemies.", "Bow",
 						"Physical", archer.PhysicalDamage, archer.Defence, archer.Health, archer.Speed));
+		inv.setItem(9,
+				selectorItem("Hunter", p, Material.BOW, "A ranged class focused mainly on",
+						"single target burst damage, great for defeating", "bosses or other strong enemies.", "Bow",
+						"Physical", hunter.PhysicalDamage, hunter.Defence, hunter.Health, hunter.Speed));
+		inv.setItem(18,
+				selectorItem("Ranger", p, Material.BOW, "A ranged class focused mainly on",
+						"single target burst damage, great for defeating", "bosses or other strong enemies.", "Bow",
+						"Physical", ranger.PhysicalDamage, ranger.Defence, ranger.Health, ranger.Speed));
 		inv.setItem(1,
 				selectorItem("Pyromancer", p, Material.STICK, "A ranged class focused mainly on",
 						"AOE damage, great for defeating", "large waves of enemies.", "Staff", "Magical",
-						archer.PhysicalDamage, archer.Defence, archer.Health, archer.Speed));
+						pyromancer.PhysicalDamage, pyromancer.Defence, pyromancer.Health, pyromancer.Speed));
 		inv.setItem(10,
 				selectorItem("Cryomancer", p, Material.STICK, "A ranged class focused mainly on",
 						"AOE damage, great for defeating", "bosses or other strong enemies.", "Staff", "Magical",
-						archer.PhysicalDamage, archer.Defence, archer.Health, archer.Speed));
+						cryomancer.PhysicalDamage, cryomancer.Defence, cryomancer.Health, cryomancer.Speed));
 		inv.setItem(19,
 				selectorItem("Geomancer", p, Material.STICK, "A ranged class focused mainly on",
 						"AOE damage, great for defeating", "bosses or other strong enemies.", "Staff", "Magical",
-						archer.PhysicalDamage, archer.Defence, archer.Health, archer.Speed));
+						geomancer.PhysicalDamage, geomancer.Defence, geomancer.Health, geomancer.Speed));
 
 		return inv;
 

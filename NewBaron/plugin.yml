@@ -10,3 +10,6 @@ commands:
    stats:
       description: check the stats of a player
       usage: /<command>
+   class:
+      description: opens class selector
+      usage: /<command>
