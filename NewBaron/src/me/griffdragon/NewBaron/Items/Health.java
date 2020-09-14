@@ -4,15 +4,15 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.griffdragon.NewBaron.Stats.StatsMain;
+import me.griffdragon.NewBaron.BaronCore;
 import net.md_5.bungee.api.ChatColor;
 
 public class Health {
 
-	private final StatsMain stats;
+	private final BaronCore main;
 
-	public Health(StatsMain stats) {
-		this.stats = stats;
+	public Health(BaronCore main) {
+		this.main = main;
 	}
 
 	public int tallyStat(Player p) {
@@ -71,7 +71,7 @@ public class Health {
 						double y = Integer.parseInt(im.getLore().get(x).substring(
 								im.getLore().get(x).lastIndexOf("a") + 1, im.getLore().get(x).lastIndexOf("%")));
 						y = y / 100;
-						return (int) (stats.getClassHealth(p) * (y));
+						return (int) (main.stats.getBaseHealth(p) * (y));
 					} else {
 						return Integer
 								.parseInt(im.getLore().get(x).substring(im.getLore().get(x).lastIndexOf("a") + 1));
