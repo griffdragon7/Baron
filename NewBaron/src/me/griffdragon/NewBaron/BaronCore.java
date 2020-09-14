@@ -25,6 +25,7 @@ import me.griffdragon.NewBaron.Items.Luck;
 import me.griffdragon.NewBaron.Items.MagicDamage;
 import me.griffdragon.NewBaron.Items.PhysicalDamage;
 import me.griffdragon.NewBaron.Items.Speed;
+import me.griffdragon.NewBaron.Menus.ClassSelector;
 import me.griffdragon.NewBaron.Menus.StatsMenu;
 import me.griffdragon.NewBaron.Mobs.BasicMobs;
 import me.griffdragon.NewBaron.Stats.StatsMain;
@@ -48,13 +49,15 @@ public class BaronCore extends JavaPlugin implements Listener {
 	ArcherMain archermain = new ArcherMain(this, files);
 
 	public StatsMain stats = new StatsMain(df, cd, cr, hp, lc, md, pd, sp, this, archermain, files);
-	
+
 	BasicMobs basicmobs = new BasicMobs();
-	
+
 	PlayerEvents playerEvents = new PlayerEvents(files, stats, this);
 	WorldEvents worldEvents = new WorldEvents(this);
 	ExpSystem expSystem = new ExpSystem(files);
 	DamageSystem damageSystem = new DamageSystem(files, basicmobs);
+
+	ClassSelector classSelector = new ClassSelector(files, archermain, this);
 
 	public static ArrayList<String> physicalClasses = new ArrayList<>();
 	public static ArrayList<String> magicalClasses = new ArrayList<>();
@@ -86,6 +89,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(worldEvents, this);
 		Bukkit.getServer().getPluginManager().registerEvents(damageSystem, this);
 		Bukkit.getServer().getPluginManager().registerEvents(expSystem, this);
+		Bukkit.getServer().getPluginManager().registerEvents(classSelector, this);
 
 	}
 
@@ -99,7 +103,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 
 	public String archer = "Archer";
 
-	public String cyromancer = "Cyromancer";
+	public String cryomancer = "Cryomancer";
 
 	public String geomancer = "Geomancer";
 
@@ -122,6 +126,9 @@ public class BaronCore extends JavaPlugin implements Listener {
 					p.openInventory(statsmenu.inv(p));
 				}
 
+			}
+			if (cmd.getName().equalsIgnoreCase("class")) {
+				p.openInventory(classSelector.i(p));
 			}
 			if (cmd.getName().equalsIgnoreCase("baron")) {
 				if (args.length == 5) {

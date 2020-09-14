@@ -50,16 +50,6 @@ public class PlayerEvents implements Listener {
 	public HashMap<Player, BossBar> bars = new HashMap<Player, BossBar>();
 
 	@EventHandler
-	public void healthbar(PlayerJoinEvent e) {
-
-		Player p = e.getPlayer();
-
-		BossBar bar = b(p);
-		bar.addPlayer(p);
-		bars.put(p, bar);
-	}
-
-	@EventHandler
 	public void updateHealth(EntityRegainHealthEvent e) {
 		if (e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();
@@ -106,11 +96,11 @@ public class PlayerEvents implements Listener {
 		}
 
 	}
-	
+
 	@EventHandler
 	public void playerLeaveEvent(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
-		
+
 		StatsMain.Health.remove(p);
 		StatsMain.Defence.remove(p);
 		StatsMain.Speed.remove(p);
@@ -119,11 +109,11 @@ public class PlayerEvents implements Listener {
 		StatsMain.CritDamage.remove(p);
 		StatsMain.PhysicalDamage.remove(p);
 		StatsMain.MagicDamage.remove(p);
-		
+
 		stats.updateStats(p);
-		
+
 	}
-	
+
 	@EventHandler
 	public void setupPlayerFiles(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
@@ -137,7 +127,7 @@ public class PlayerEvents implements Listener {
 		StatsMain.CritDamage.put(p, stats.getCritDamage(p));
 		StatsMain.PhysicalDamage.put(p, stats.getPhysicalDamage(p));
 		StatsMain.MagicDamage.put(p, stats.getMagicDamage(p));
-		
+
 		stats.updateStats(p);
 
 		/// sets up a players file the first time they join
@@ -150,6 +140,11 @@ public class PlayerEvents implements Listener {
 			Bukkit.getConsoleSender()
 					.sendMessage(ChatColor.GRAY + "Player already has a player file, proceeding normally...");
 		}
+		//adding bossbars (healthbar_)
+		
+		BossBar bar = b(p);
+		bar.addPlayer(p);
+		bars.put(p, bar);
 	}
 
 }

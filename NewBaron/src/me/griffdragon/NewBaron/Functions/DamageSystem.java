@@ -7,8 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import me.griffdragon.NewBaron.BaronCore;
 import me.griffdragon.NewBaron.Mobs.BasicMobs;
 import me.griffdragon.NewBaron.Stats.StatsMain;
@@ -59,6 +57,7 @@ public class DamageSystem implements Listener {
 					int hpNumber = (int) ((fakeHPProp * enemyHp) - damage);
 					sendActionbar(p, ChatColor.translateAlternateColorCodes('&',
 							"&7Damage Dealt: &c" + damage + " &8 | &7Mob Health: &6" + hpNumber + "/" + (int) enemyHp));
+					
 
 				}
 			}

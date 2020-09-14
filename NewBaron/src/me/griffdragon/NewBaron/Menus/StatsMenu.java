@@ -49,6 +49,9 @@ public class StatsMenu {
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&c »&7 Class: " + files.getClass(p)));
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&c »&7 Level: " + files.getLevel(p, files.getClass(p))));
+		lore.add(ChatColor.translateAlternateColorCodes('&',
+				"&c »&7 EXP: " + files.getExp(p, files.getClass(p)) + "/" + files.expToLevel(p)));
+
 		im.setLore(lore);
 
 		item.setItemMeta(im);

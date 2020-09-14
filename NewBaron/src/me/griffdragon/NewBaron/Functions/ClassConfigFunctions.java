@@ -52,6 +52,17 @@ public class ClassConfigFunctions {
 
 	}
 
+	public boolean hasClass(Player p, String classname) {
+		PlayerFiles file = new PlayerFiles(p);
+		String uuid = p.getUniqueId().toString();
+		if (file.getPlayerFile().get(uuid + ".Classes." + classname + ".Level") == null) {
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
 	public void setActiveClass(Player p, String classname) {
 		// sets the active class of a player
 		PlayerFiles file = new PlayerFiles(p);
