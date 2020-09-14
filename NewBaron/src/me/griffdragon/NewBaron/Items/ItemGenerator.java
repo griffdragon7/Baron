@@ -268,10 +268,19 @@ public class ItemGenerator {
 	public ItemStack Armor(String tier, String armor) {
 
 		Random rand = new Random();
-		int flatHealth = (int) (rand.nextInt((int) (80 * healthMultiplier.get(tier)))
-				+ 20 * healthMultiplier.get(tier));
-		int magic = (int) (rand.nextInt((int) (80 * magMultiplier.get(tier))) + 20 * magMultiplier.get(tier));
-		int phys = (int) (rand.nextInt((int) (80 * physMultiplier.get(tier))) + 20 * physMultiplier.get(tier));
+		int flatHealth = 0;
+		int magic = 0;
+		int phys = 0;
+		if (healthMultiplier.containsKey(tier)) {
+			flatHealth = (int) (rand.nextInt((int) (80 * healthMultiplier.get(tier)))
+					+ 20 * healthMultiplier.get(tier));
+		}
+		if (magMultiplier.containsKey(tier)) {
+			magic = (int) (rand.nextInt((int) (80 * magMultiplier.get(tier))) + 20 * magMultiplier.get(tier));
+		}
+		if (physMultiplier.containsKey(tier)) {
+			phys = (int) (rand.nextInt((int) (80 * physMultiplier.get(tier))) + 20 * physMultiplier.get(tier));
+		}
 		ItemStack i = null;
 		if (armor.equalsIgnoreCase("helmet")) {
 			i = new ItemStack(helmets.get(tier));

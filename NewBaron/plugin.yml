@@ -4,6 +4,9 @@ depend:
 version: 1.16.2
 api-version: 1.16
 commands:
-   class:
-      description: Choose a class
+   baron:
+      description: base command
+      usage: /<command>
+   customitem:
+      description: base command
       usage: /<command>
