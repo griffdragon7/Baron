@@ -1,5 +1,7 @@
 package me.griffdragon.NewBaron;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
 import org.bukkit.command.Command;
@@ -24,6 +26,7 @@ import me.griffdragon.NewBaron.Items.MagicDamage;
 import me.griffdragon.NewBaron.Items.PhysicalDamage;
 import me.griffdragon.NewBaron.Items.Speed;
 import me.griffdragon.NewBaron.Menus.StatsMenu;
+import me.griffdragon.NewBaron.Mobs.BasicMobs;
 import me.griffdragon.NewBaron.Stats.StatsMain;
 import net.md_5.bungee.api.ChatColor;
 
@@ -45,11 +48,16 @@ public class BaronCore extends JavaPlugin implements Listener {
 	ArcherMain archermain = new ArcherMain(this, files);
 
 	public StatsMain stats = new StatsMain(df, cd, cr, hp, lc, md, pd, sp, this, archermain, files);
-
+	
+	BasicMobs basicmobs = new BasicMobs();
+	
 	PlayerEvents playerEvents = new PlayerEvents(files, stats, this);
 	WorldEvents worldEvents = new WorldEvents(this);
 	ExpSystem expSystem = new ExpSystem(files);
-	DamageSystem damageSystem = new DamageSystem();
+	DamageSystem damageSystem = new DamageSystem(files, basicmobs);
+
+	public static ArrayList<String> physicalClasses = new ArrayList<>();
+	public static ArrayList<String> magicalClasses = new ArrayList<>();
 
 	public void onEnable() {
 		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -62,6 +70,10 @@ public class BaronCore extends JavaPlugin implements Listener {
 			StatsMain.PhysicalDamage.put(p, stats.getPhysicalDamage(p));
 			StatsMain.MagicDamage.put(p, stats.getMagicDamage(p));
 		}
+
+		physicalClasses.add("Archer");
+
+		magicalClasses.add("Cryomancer");
 
 		for (Player ps : Bukkit.getServer().getOnlinePlayers()) {
 			BossBar bar = playerEvents.b(ps);
