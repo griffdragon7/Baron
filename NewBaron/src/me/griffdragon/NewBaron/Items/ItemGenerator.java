@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -318,6 +319,9 @@ public class ItemGenerator {
 
 			lore.add(ChatColor.translateAlternateColorCodes('&', tierColor.get(tier) + magDamageLore + phys));
 		}
+		if (rand.nextInt(2000) == 1) {
+			im.addEnchant(Enchantment.DURABILITY, 1, true);
+		}
 		if (tier1Stats.contains(tier)) {
 			lore.add(determineStat(tier));
 		}
@@ -334,6 +338,7 @@ public class ItemGenerator {
 		im.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		im.setUnbreakable(true);
+		im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		i.setItemMeta(im);
 
 		return i;
