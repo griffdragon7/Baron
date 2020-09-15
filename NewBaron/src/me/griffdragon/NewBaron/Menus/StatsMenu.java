@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,7 +17,7 @@ import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
 import me.griffdragon.NewBaron.Stats.StatsMain;
 import net.md_5.bungee.api.ChatColor;
 
-public class StatsMenu {
+public class StatsMenu implements Listener {
 
 	private final ClassConfigFunctions files;
 
@@ -22,8 +25,21 @@ public class StatsMenu {
 		this.files = files;
 	}
 
+	public static Inventory inv;
+
+	@EventHandler
+	public void onclick(InventoryClickEvent e) {
+		if (e.getInventory() != null) {
+			if (e.getClickedInventory() != null) {
+				if (e.getInventory() == inv) {
+					e.setCancelled(true);
+				}
+			}
+		}
+	}
+
 	public Inventory inv(Player p) {
-		Inventory inv = Bukkit.getServer().createInventory(null, 27, p.getName() + "'s stats");
+		inv = Bukkit.getServer().createInventory(null, 27, p.getName() + "'s stats");
 		if (p.isOnline()) {
 			inv.setItem(4, skull(p));
 			inv.setItem(11, health(p));

@@ -120,34 +120,35 @@ public class ClassSelector implements Listener {
 		inv.setItem(0,
 				selectorItem("Archer", p, Material.BOW, "A ranged class focused mainly on",
 						"single target burst damage, great for defeating", "bosses or other strong enemies.", "Bow",
-						"Physical", archer.PhysicalDamage, archer.Defence, archer.Health, archer.Speed));
+						"Physical", archer.PhysicalDamage, archer.Defence, archer.Health, archer.Speed, 0, "Bowman"));
 		inv.setItem(9,
 				selectorItem("Hunter", p, Material.BOW, "A ranged class focused mainly on",
 						"single target burst damage, great for defeating", "bosses or other strong enemies.", "Bow",
-						"Physical", hunter.PhysicalDamage, hunter.Defence, hunter.Health, hunter.Speed));
+						"Physical", hunter.PhysicalDamage, hunter.Defence, hunter.Health, hunter.Speed, 50, "Bowman"));
 		inv.setItem(18,
 				selectorItem("Ranger", p, Material.BOW, "A ranged class focused mainly on",
 						"single target burst damage, great for defeating", "bosses or other strong enemies.", "Bow",
-						"Physical", ranger.PhysicalDamage, ranger.Defence, ranger.Health, ranger.Speed));
+						"Physical", ranger.PhysicalDamage, ranger.Defence, ranger.Health, ranger.Speed, 100, "Bowman"));
 		inv.setItem(1,
 				selectorItem("Pyromancer", p, Material.STICK, "A ranged class focused mainly on",
 						"AOE damage, great for defeating", "large waves of enemies.", "Staff", "Magical",
-						pyromancer.PhysicalDamage, pyromancer.Defence, pyromancer.Health, pyromancer.Speed));
+						pyromancer.PhysicalDamage, pyromancer.Defence, pyromancer.Health, pyromancer.Speed, 0, "Magic"));
 		inv.setItem(10,
 				selectorItem("Cryomancer", p, Material.STICK, "A ranged class focused mainly on",
 						"AOE damage, great for defeating", "bosses or other strong enemies.", "Staff", "Magical",
-						cryomancer.PhysicalDamage, cryomancer.Defence, cryomancer.Health, cryomancer.Speed));
+						cryomancer.PhysicalDamage, cryomancer.Defence, cryomancer.Health, cryomancer.Speed, 50, "Magic"));
 		inv.setItem(19,
 				selectorItem("Geomancer", p, Material.STICK, "A ranged class focused mainly on",
 						"AOE damage, great for defeating", "bosses or other strong enemies.", "Staff", "Magical",
-						geomancer.PhysicalDamage, geomancer.Defence, geomancer.Health, geomancer.Speed));
+						geomancer.PhysicalDamage, geomancer.Defence, geomancer.Health, geomancer.Speed, 100, "Magic"));
 
 		return inv;
 
 	}
 
 	public ItemStack selectorItem(String className, Player p, Material mat, String description1, String description2,
-			String description3, String weaponType, String damageType, int damage, int defence, int health, int speed) {
+			String description3, String weaponType, String damageType, int damage, int defence, int health, int speed,
+			int prof, String classType) {
 		Material newMat = Material.REDSTONE;
 		String color = "&c";
 		if (files.hasClass(p, className)) {
@@ -161,6 +162,8 @@ public class ClassSelector implements Listener {
 				color + "&l" + className + "&8 - &7[" + files.getLevel(p, className) + "]"));
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&aClass Info:"));
+		lore.add(ChatColor.translateAlternateColorCodes('&',
+				"&a * &7" + classType + " Proficiency Required: &f" + prof));
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&a * &7Class Level: &a" + files.getLevel(p, className)));
 		lore.add(ChatColor.translateAlternateColorCodes('&', "&a * &7Class EXP: &b" + files.getExp(p, className)));
 		lore.add(ChatColor.translateAlternateColorCodes('&',

@@ -94,9 +94,9 @@ public class BaronCore extends JavaPlugin implements Listener {
 		magicalClasses.add("Cryomancer");
 
 		for (Player ps : Bukkit.getServer().getOnlinePlayers()) {
-			BossBar bar = playerEvents.b(ps);
+			BossBar bar = stats.b(ps);
 			bar.addPlayer(ps);
-			playerEvents.bars.put(ps, bar);
+			stats.bars.put(ps, bar);
 
 		}
 		items.putMaps();
@@ -105,12 +105,14 @@ public class BaronCore extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(damageSystem, this);
 		Bukkit.getServer().getPluginManager().registerEvents(expSystem, this);
 		Bukkit.getServer().getPluginManager().registerEvents(classSelector, this);
+		Bukkit.getServer().getPluginManager().registerEvents(statsmenu, this);
+		Bukkit.getServer().getPluginManager().registerEvents(stats, this);
 
 	}
 
 	public void onDisable() {
 		for (Player ps : Bukkit.getServer().getOnlinePlayers()) {
-			playerEvents.bars.get(ps).removePlayer(ps);
+			stats.bars.get(ps).removePlayer(ps);
 		}
 	}
 

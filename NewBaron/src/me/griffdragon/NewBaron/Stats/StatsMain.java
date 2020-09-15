@@ -2,12 +2,24 @@ package me.griffdragon.NewBaron.Stats;
 
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarFlag;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import me.griffdragon.NewBaron.BaronCore;
 import me.griffdragon.NewBaron.Classes.Archer.ArcherMain;
 import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
-import me.griffdragon.NewBaron.Functions.PlayerFiles;
 import me.griffdragon.NewBaron.Items.CritDamage;
 import me.griffdragon.NewBaron.Items.CritRate;
 import me.griffdragon.NewBaron.Items.Defence;
@@ -16,8 +28,9 @@ import me.griffdragon.NewBaron.Items.Luck;
 import me.griffdragon.NewBaron.Items.MagicDamage;
 import me.griffdragon.NewBaron.Items.PhysicalDamage;
 import me.griffdragon.NewBaron.Items.Speed;
+import net.md_5.bungee.api.ChatColor;
 
-public class StatsMain {
+public class StatsMain implements Listener {
 
 	private final BaronCore main;
 
@@ -33,7 +46,7 @@ public class StatsMain {
 	private final PhysicalDamage physicalDamage;
 	private final Speed speed;
 	private final Defence defence;
-	
+
 	public static HashMap<Player, Integer> Health = new HashMap<Player, Integer>();
 	public static HashMap<Player, Integer> Defence = new HashMap<Player, Integer>();
 	public static HashMap<Player, Integer> Luck = new HashMap<Player, Integer>();
@@ -59,19 +72,132 @@ public class StatsMain {
 		this.speed = sp;
 	}
 
-	public void updateStats(Player p) {
-		PlayerFiles file = new PlayerFiles(p);
+	public BossBar b(Player p) {
 
-		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.Health", getHealth(p));
-		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.PhysicalDamage", getPhysicalDamage(p));
-		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.MagicDamage", getMagicDamage(p));
-		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.Defence", getDefence(p));
-		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.Luck", getLuck(p));
-		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.Speed", getSpeed(p));
-		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.CritRate", getCritRate(p));
-		file.getPlayerFile().set(p.getUniqueId().toString() + ".Stats.CritDamage", getCritDamage(p));
+		float maxHP = StatsMain.Health.get(p);
+		float health = (float) p.getHealth();
+		float proportion = health / 20;
+		float finalHP = maxHP * proportion;
+		BossBar b = Bukkit.createBossBar(
+				ChatColor.translateAlternateColorCodes('&', "&7Health: &a" + (int) finalHP + "&c \u2764"),
+				BarColor.GREEN, BarStyle.SEGMENTED_20, BarFlag.PLAY_BOSS_MUSIC);
+		b.setProgress(proportion);
+		return b;
+	}
 
-		file.savePlayerFile();
+	public HashMap<Player, BossBar> bars = new HashMap<Player, BossBar>();
+
+	@EventHandler
+	public void updateHealth(EntityRegainHealthEvent e) {
+		if (e.getEntity() instanceof Player) {
+			Player p = (Player) e.getEntity();
+
+			if (e.getEntity() instanceof Player) {
+				new BukkitRunnable() {
+
+					public void run() {
+						double maxHP = StatsMain.Health.get(p);
+						double health = p.getHealth();
+						double proportion = health / 20;
+						double finalHP = maxHP * proportion;
+						bars.get(p).setTitle(ChatColor.translateAlternateColorCodes('&',
+								"&7Health: &a" + (int) finalHP + "&c \u2764"));
+						bars.get(p).setProgress(proportion);
+
+					}
+				}.runTaskLater(main, 1L);
+
+			}
+		}
+	}
+
+	@EventHandler
+	public void onclick(InventoryClickEvent e) {
+
+		Player p = (Player) e.getWhoClicked();
+
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+
+				StatsMain.Health.put(p, getHealth(p));
+				StatsMain.Defence.put(p, getDefence(p));
+				StatsMain.Luck.put(p, getLuck(p));
+				StatsMain.Speed.put(p, getSpeed(p));
+				StatsMain.CritRate.put(p, getCritRate(p));
+				StatsMain.CritDamage.put(p, getCritDamage(p));
+				StatsMain.PhysicalDamage.put(p, getPhysicalDamage(p));
+				StatsMain.MagicDamage.put(p, getMagicDamage(p));
+				double maxHP = StatsMain.Health.get(p);
+				double health = p.getHealth();
+				double proportion = health / 20;
+				double finalHP = maxHP * proportion;
+				bars.get(p).setTitle(
+						ChatColor.translateAlternateColorCodes('&', "&7Health: &a" + (int) finalHP + "&c \u2764"));
+				bars.get(p).setProgress(proportion);
+
+			}
+		}.runTaskLater(main, 1L);
+
+	}
+
+	@EventHandler
+	public void updateBar(EntityDamageEvent e) {
+		if (e.getEntity() instanceof Player) {
+			Player p = (Player) e.getEntity();
+
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					double maxHP = StatsMain.Health.get(p);
+					double health = p.getHealth();
+					double proportion = health / 20;
+					double finalHP = maxHP * proportion;
+					bars.get(p).setTitle(
+							ChatColor.translateAlternateColorCodes('&', "&7Health: &a" + (int) finalHP + "&c \u2764"));
+					bars.get(p).setProgress(proportion);
+
+				}
+			}.runTaskLater(main, 1L);
+
+		}
+
+	}
+
+	@EventHandler
+	public void playerLeaveEvent(PlayerQuitEvent e) {
+		Player p = e.getPlayer();
+
+		StatsMain.Health.remove(p);
+		StatsMain.Defence.remove(p);
+		StatsMain.Speed.remove(p);
+		StatsMain.Luck.remove(p);
+		StatsMain.CritRate.remove(p);
+		StatsMain.CritDamage.remove(p);
+		StatsMain.PhysicalDamage.remove(p);
+		StatsMain.MagicDamage.remove(p);
+
+	}
+
+	@EventHandler
+	public void onJoin(PlayerJoinEvent e) {
+		Player p = e.getPlayer();
+		// adds a player to a stat when they join
+
+		StatsMain.Health.put(p, getHealth(p));
+		StatsMain.Defence.put(p, getDefence(p));
+		StatsMain.Luck.put(p, getLuck(p));
+		StatsMain.Speed.put(p, getSpeed(p));
+		StatsMain.CritRate.put(p, getCritRate(p));
+		StatsMain.CritDamage.put(p, getCritDamage(p));
+		StatsMain.PhysicalDamage.put(p, getPhysicalDamage(p));
+		StatsMain.MagicDamage.put(p, getMagicDamage(p));
+
+		BossBar bar = b(p);
+		bar.addPlayer(p);
+		bars.put(p, bar);
 	}
 
 	public int getHealth(Player p) {
