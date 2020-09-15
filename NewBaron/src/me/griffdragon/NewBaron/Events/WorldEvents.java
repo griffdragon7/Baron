@@ -17,7 +17,17 @@ public class WorldEvents implements Listener {
 	public WorldEvents(BaronCore main) {
 		this.main = main;
 	}
-
+	
+	int level1 = 100;
+	int level2 = 200;
+	int level3 = 300;
+	int level4 = 400;
+	int level5 = 500;
+	int level6 = 600;
+	int level7 = 700;
+	int level8 = 800;
+	int level9 = 900;
+	
 	@EventHandler
 	public void setMobLevel(EntitySpawnEvent e) {
 
@@ -29,39 +39,39 @@ public class WorldEvents implements Listener {
 
 				@Override
 				public void run() {
-					if (spawn.distance(mobLocation) < 50) {
+					if (spawn.distance(mobLocation) < level1) {
 						ent.setMetadata("1", new FixedMetadataValue(main, "level"));
 						ent.setCustomNameVisible(true);
 						ent.setCustomName("Level 1");
-					} else if (spawn.distance(mobLocation) < 100 && spawn.distance(mobLocation) > 50) {
+					} else if (spawn.distance(mobLocation) < level2 && spawn.distance(mobLocation) > level1) {
 						ent.setMetadata("2", new FixedMetadataValue(main, "level"));
 						ent.setCustomNameVisible(true);
 						ent.setCustomName("Level 2");
-					} else if (spawn.distance(mobLocation) < 200 && spawn.distance(mobLocation) > 100) {
+					} else if (spawn.distance(mobLocation) < level3 && spawn.distance(mobLocation) > level2) {
 						ent.setMetadata("3", new FixedMetadataValue(main, "level"));
 						ent.setCustomNameVisible(true);
 						ent.setCustomName("Level 3");
-					} else if (spawn.distance(mobLocation) < 300 && spawn.distance(mobLocation) > 200) {
+					} else if (spawn.distance(mobLocation) < level4 && spawn.distance(mobLocation) > level3) {
 						ent.setMetadata("4", new FixedMetadataValue(main, "level"));
 						ent.setCustomNameVisible(true);
 						ent.setCustomName("Level 4");
-					} else if (spawn.distance(mobLocation) < 400 && spawn.distance(mobLocation) > 300) {
+					} else if (spawn.distance(mobLocation) < level5 && spawn.distance(mobLocation) > level4) {
 						ent.setMetadata("5", new FixedMetadataValue(main, "level"));
 						ent.setCustomNameVisible(true);
 						ent.setCustomName("Level 5");
-					} else if (spawn.distance(mobLocation) < 500 && spawn.distance(mobLocation) > 400) {
+					} else if (spawn.distance(mobLocation) < level6 && spawn.distance(mobLocation) > level5) {
 						ent.setMetadata("6", new FixedMetadataValue(main, "level"));
 						ent.setCustomNameVisible(true);
 						ent.setCustomName("Level 6");
-					} else if (spawn.distance(mobLocation) < 600 && spawn.distance(mobLocation) > 500) {
+					} else if (spawn.distance(mobLocation) < level7 && spawn.distance(mobLocation) > level6) {
 						ent.setMetadata("7", new FixedMetadataValue(main, "level"));
 						ent.setCustomNameVisible(true);
 						ent.setCustomName("Level 7");
-					} else if (spawn.distance(mobLocation) < 700 && spawn.distance(mobLocation) > 600) {
+					} else if (spawn.distance(mobLocation) < level8 && spawn.distance(mobLocation) > level7) {
 						ent.setMetadata("8", new FixedMetadataValue(main, "level"));
 						ent.setCustomNameVisible(true);
 						ent.setCustomName("Level 8");
-					} else if (spawn.distance(mobLocation) > 700) {
+					} else if (spawn.distance(mobLocation) > level8) {
 						ent.setMetadata("9", new FixedMetadataValue(main, "level"));
 						ent.setCustomNameVisible(true);
 						ent.setCustomName("Level 9");
