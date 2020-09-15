@@ -39,7 +39,7 @@ import net.md_5.bungee.api.ChatColor;
 public class BaronCore extends JavaPlugin implements Listener {
 
 	// register items and functions/stats
-	ClassConfigFunctions files = new ClassConfigFunctions();
+	ClassConfigFunctions files = new ClassConfigFunctions(this);
 	ItemGenerator items = new ItemGenerator();
 	CritDamage cd = new CritDamage(items);
 	CritRate cr = new CritRate(items);

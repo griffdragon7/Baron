@@ -2,7 +2,15 @@ package me.griffdragon.NewBaron.Functions;
 
 import org.bukkit.entity.Player;
 
+import me.griffdragon.NewBaron.BaronCore;
+
 public class ClassConfigFunctions {
+
+	private final BaronCore main;
+
+	public ClassConfigFunctions(BaronCore main) {
+		this.main = main;
+	}
 
 	public int getClassLevel(Player p, String Class) {
 		// returns the players level for given class
@@ -19,13 +27,48 @@ public class ClassConfigFunctions {
 		file.getPlayerFile().set(uuid + ".Info.Active", "Archer");
 		file.getPlayerFile().set(uuid + ".Classes.Archer.Level", 1);
 		file.getPlayerFile().set(uuid + ".Classes.Archer.Exp", 0);
-		file.getPlayerFile().set(uuid + ".Prof.Earth", 0);
-		file.getPlayerFile().set(uuid + ".Prof.Water", 0);
-		file.getPlayerFile().set(uuid + ".Prof.Air", 0);
-		file.getPlayerFile().set(uuid + ".Prof.Fire", 0);
-		file.getPlayerFile().set(uuid + ".Prof.Death", 0);
+		file.getPlayerFile().set(uuid + ".Prof.Bow", 0);
+		file.getPlayerFile().set(uuid + ".Prof.Magic", 0);
+		file.getPlayerFile().set(uuid + ".Prof.Sword", 0);
+		file.getPlayerFile().set(uuid + ".Prof.Shield", 0);
+		file.getPlayerFile().set(uuid + ".Prof.Healer", 0);
 
 		file.savePlayerFile();
+
+	}
+
+	public int getBowProficiency(Player p) {
+		PlayerFiles file = new PlayerFiles(p);
+
+		return file.getPlayerFile().getInt(p.getUniqueId().toString() + ".Prof.Bow");
+
+	}
+
+	public int getMagicProficiency(Player p) {
+		PlayerFiles file = new PlayerFiles(p);
+
+		return file.getPlayerFile().getInt(p.getUniqueId().toString() + ".Prof.Magic");
+
+	}
+
+	public int getSwordProficiency(Player p) {
+		PlayerFiles file = new PlayerFiles(p);
+
+		return file.getPlayerFile().getInt(p.getUniqueId().toString() + ".Prof.Sword");
+
+	}
+
+	public int getShieldProficiency(Player p) {
+		PlayerFiles file = new PlayerFiles(p);
+
+		return file.getPlayerFile().getInt(p.getUniqueId().toString() + ".Prof.Shield");
+
+	}
+
+	public int getHealerProficiency(Player p) {
+		PlayerFiles file = new PlayerFiles(p);
+
+		return file.getPlayerFile().getInt(p.getUniqueId().toString() + ".Prof.Healer");
 
 	}
 
@@ -140,6 +183,10 @@ public class ClassConfigFunctions {
 	public void levelUp(Player p, String classname) {
 		setLevel(p, classname, getLevel(p, classname) + 1);
 		setExp(p, classname, 0);
+
+		main.stats.updateStats(p);
+		main.stats.updateHealthBar(p);
+
 		scaleExp(p);
 	}
 

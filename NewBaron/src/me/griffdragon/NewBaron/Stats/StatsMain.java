@@ -111,6 +111,17 @@ public class StatsMain implements Listener {
 		}
 	}
 
+	public void updateStats(Player p) {
+		StatsMain.Health.put(p, getHealth(p));
+		StatsMain.Defence.put(p, getDefence(p));
+		StatsMain.Luck.put(p, getLuck(p));
+		StatsMain.Speed.put(p, getSpeed(p));
+		StatsMain.CritRate.put(p, getCritRate(p));
+		StatsMain.CritDamage.put(p, getCritDamage(p));
+		StatsMain.PhysicalDamage.put(p, getPhysicalDamage(p));
+		StatsMain.MagicDamage.put(p, getMagicDamage(p));
+	}
+
 	@EventHandler
 	public void onclick(InventoryClickEvent e) {
 
@@ -121,21 +132,8 @@ public class StatsMain implements Listener {
 			@Override
 			public void run() {
 
-				StatsMain.Health.put(p, getHealth(p));
-				StatsMain.Defence.put(p, getDefence(p));
-				StatsMain.Luck.put(p, getLuck(p));
-				StatsMain.Speed.put(p, getSpeed(p));
-				StatsMain.CritRate.put(p, getCritRate(p));
-				StatsMain.CritDamage.put(p, getCritDamage(p));
-				StatsMain.PhysicalDamage.put(p, getPhysicalDamage(p));
-				StatsMain.MagicDamage.put(p, getMagicDamage(p));
-				double maxHP = StatsMain.Health.get(p);
-				double health = p.getHealth();
-				double proportion = health / 20;
-				double finalHP = maxHP * proportion;
-				bars.get(p).setTitle(
-						ChatColor.translateAlternateColorCodes('&', "&7Health: &a" + (int) finalHP + "&c \u2764"));
-				bars.get(p).setProgress(proportion);
+				updateStats(p);
+				updateHealthBar(p);
 
 			}
 		}.runTaskLater(main, 1L);
@@ -151,19 +149,22 @@ public class StatsMain implements Listener {
 
 				@Override
 				public void run() {
-					double maxHP = StatsMain.Health.get(p);
-					double health = p.getHealth();
-					double proportion = health / 20;
-					double finalHP = maxHP * proportion;
-					bars.get(p).setTitle(
-							ChatColor.translateAlternateColorCodes('&', "&7Health: &a" + (int) finalHP + "&c \u2764"));
-					bars.get(p).setProgress(proportion);
+					updateHealthBar(p);
 
 				}
 			}.runTaskLater(main, 1L);
 
 		}
 
+	}
+
+	public void updateHealthBar(Player p) {
+		double maxHP = StatsMain.Health.get(p);
+		double health = p.getHealth();
+		double proportion = health / 20;
+		double finalHP = maxHP * proportion;
+		bars.get(p).setTitle(ChatColor.translateAlternateColorCodes('&', "&7Health: &a" + (int) finalHP + "&c \u2764"));
+		bars.get(p).setProgress(proportion);
 	}
 
 	@EventHandler
@@ -186,14 +187,7 @@ public class StatsMain implements Listener {
 		Player p = e.getPlayer();
 		// adds a player to a stat when they join
 
-		StatsMain.Health.put(p, getHealth(p));
-		StatsMain.Defence.put(p, getDefence(p));
-		StatsMain.Luck.put(p, getLuck(p));
-		StatsMain.Speed.put(p, getSpeed(p));
-		StatsMain.CritRate.put(p, getCritRate(p));
-		StatsMain.CritDamage.put(p, getCritDamage(p));
-		StatsMain.PhysicalDamage.put(p, getPhysicalDamage(p));
-		StatsMain.MagicDamage.put(p, getMagicDamage(p));
+		updateStats(p);
 
 		BossBar bar = b(p);
 		bar.addPlayer(p);

@@ -1,5 +1,7 @@
 package me.griffdragon.NewBaron.Functions;
 
+import java.util.Random;
+
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -30,17 +32,34 @@ public class DamageSystem implements Listener {
 
 	@EventHandler
 	public void onPlayerDamage(EntityDamageByEntityEvent e) {
+		Random rand = new Random();
 		if (e.getEntity() instanceof LivingEntity) {
 			LivingEntity ent = (LivingEntity) e.getEntity();
 			if (e.getDamager() instanceof Player) {
 				if (e.getCause() == DamageCause.ENTITY_ATTACK) {
 					Player p = (Player) e.getDamager();
+					String color = "&c";
 					double damage = 0;
 					double enemyHp = 20;
+					double critDamage = (double) StatsMain.CritDamage.get(p) / 100;
 					if (BaronCore.magicalClasses.contains(files.getClass(p))) {
-						damage = StatsMain.MagicDamage.get(p);
+
+						if (rand.nextInt(100) < StatsMain.CritRate.get(p)) {
+							damage = StatsMain.MagicDamage.get(p) + (StatsMain.MagicDamage.get(p) * critDamage);
+							color = "&4";
+						} else {
+
+							damage = StatsMain.MagicDamage.get(p);
+						}
 					} else if (BaronCore.physicalClasses.contains(files.getClass(p))) {
-						damage = StatsMain.PhysicalDamage.get(p);
+						if (rand.nextInt(100) < StatsMain.CritRate.get(p)) {
+							damage = StatsMain.PhysicalDamage.get(p) + (StatsMain.PhysicalDamage.get(p) * critDamage);
+							color = "&4";
+
+						} else {
+							
+							damage = StatsMain.PhysicalDamage.get(p);
+						}
 					}
 					if (e.getEntity().hasMetadata("1")) {
 						enemyHp = mobs.level1Health;
@@ -55,9 +74,8 @@ public class DamageSystem implements Listener {
 					double fakeHPProp = ent.getHealth() / ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 					// multiply proportion by enemyHP to get fake hp left
 					int hpNumber = (int) ((fakeHPProp * enemyHp) - damage);
-					sendActionbar(p, ChatColor.translateAlternateColorCodes('&',
-							"&7Damage Dealt: &c" + damage + " &8 | &7Mob Health: &6" + hpNumber + "/" + (int) enemyHp));
-					
+					sendActionbar(p, ChatColor.translateAlternateColorCodes('&', "&7Damage Dealt: " + color + damage
+							+ " &8 | &7Mob Health: &6" + hpNumber + "/" + (int) enemyHp));
 
 				}
 			}
