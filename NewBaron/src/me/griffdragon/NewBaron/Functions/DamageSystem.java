@@ -64,6 +64,30 @@ public class DamageSystem implements Listener {
 					if (e.getEntity().hasMetadata("1")) {
 						enemyHp = mobs.level1Health;
 					}
+					if (e.getEntity().hasMetadata("2")) {
+						enemyHp = mobs.level2Health;
+					}
+					if (e.getEntity().hasMetadata("3")) {
+						enemyHp = mobs.level3Health;
+					}
+					if (e.getEntity().hasMetadata("4")) {
+						enemyHp = mobs.level4Health;
+					}
+					if (e.getEntity().hasMetadata("5")) {
+						enemyHp = mobs.level5Health;
+					}
+					if (e.getEntity().hasMetadata("6")) {
+						enemyHp = mobs.level6Health;
+					}
+					if (e.getEntity().hasMetadata("7")) {
+						enemyHp = mobs.level7Health;
+					}
+					if (e.getEntity().hasMetadata("8")) {
+						enemyHp = mobs.level8Health;
+					}
+					if (e.getEntity().hasMetadata("9")) {
+						enemyHp = mobs.level9Health;
+					}
 					// getting proportion for enemy hp left
 					double proportion = damage / enemyHp;
 					// multiply the proportion by the real amount of hp to get actual damage
