@@ -5,13 +5,18 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import me.griffdragon.NewBaron.BaronCore;
 import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
 
-public class ArcherMain {
+public class ArcherMain implements Listener {
 
 	private final ClassConfigFunctions config;
 
@@ -21,6 +26,29 @@ public class ArcherMain {
 		this.config = config;
 		this.main = main;
 	}
+	
+	//arraylist for ultimate
+	public ArrayList<Player> archerUltimate = new ArrayList<Player>();
+	
+	
+	// cooldowns for skills
+	public ArrayList<Player> primaryCooldown = new ArrayList<Player>();
+	public ArrayList<Player> skill1Cooldown = new ArrayList<Player>();
+	public ArrayList<Player> skill2Cooldown = new ArrayList<Player>();
+	public ArrayList<Player> skill3Cooldown = new ArrayList<Player>();
+
+	// cooldown times (in seconds)
+	public double primaryCooldownTime = .7;
+	public double skill1CooldownTime = 10;
+	public double skill2CooldownTime = 20;
+	public double skill3CooldownTime = 30;
+
+	// metadata for arrows
+
+	public static String primaryMetadata = "archerPrimary";
+	public static String skillOneMetadata = "archerOne";
+	public static String skillTwoMetadata = "archerTwo";
+	public static String skillThreeMetadata = "archerThree";
 
 	// Base Stats
 
@@ -58,17 +86,144 @@ public class ArcherMain {
 
 	public int LuckModifier = 0;
 
-	public ItemStack classItem(Player p) {
-		ItemStack item = new ItemStack(Material.BOW);
-		ItemMeta itemMeta = item.getItemMeta();
-		itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-				"&a&lArcher &7- &8[&7" + config.getClassLevel(p, main.archer) + "&8]"));
-		ArrayList<String> lore = new ArrayList<String>();
-		lore.add(ChatColor.translateAlternateColorCodes('&', "&7///CLASS LORE"));
-		itemMeta.setLore(lore);
-		item.setItemMeta(itemMeta);
+	@EventHandler
+	public void archerSkills(PlayerInteractEvent e) {
+		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+			Player p = e.getPlayer();
+			if (config.getClass(p).equalsIgnoreCase(main.archer)) {
+				if (e.getPlayer().getInventory().getHeldItemSlot() == 0) {
+					if (e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.BOW)) {
+						if (!primaryCooldown.contains(p)) {
+							primaryCooldown.add(p);
+							new Primary(main, this, p);
+							new BukkitRunnable() {
 
-		return item;
+								public void run() {
+									primaryCooldown.remove(p);
+
+								}
+							}.runTaskLater(main, (long) primaryCooldownTime * 20);
+						}
+					}
+				} else if (p.getInventory().getHeldItemSlot() == 1) {
+					if (!skill1Cooldown.contains(p)) {
+						skill1Cooldown.add(p);
+
+						new BukkitRunnable() {
+
+							public void run() {
+								skill1Cooldown.remove(p);
+
+							}
+						}.runTaskLater(main, (long) skill1CooldownTime * 20);
+					}
+				} else if (p.getInventory().getHeldItemSlot() == 2) {
+
+				} else if (p.getInventory().getHeldItemSlot() == 3) {
+
+				}
+			}
+		}
+	}
+
+	public ItemStack skillOne() {
+		ItemStack i = new ItemStack(Material.BOOK);
+		ItemMeta im = i.getItemMeta();
+		im.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aConcussive Shot &7(Right Click)"));
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Shoots a strong shot that knocks"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7the target back with a powerful force."));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Cooldown: &e5 Seconds"));
+
+		im.setLore(lore);
+
+		i.setItemMeta(im);
+
+		return i;
+	}
+
+	public ItemStack skillOneDisc() {
+		ItemStack i = new ItemStack(Material.MUSIC_DISC_CHIRP);
+		ItemMeta im = i.getItemMeta();
+		im.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cConcussive Shot &7(Cooldown)"));
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Shoots a strong shot that knocks"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7the target back with a powerful force."));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Cooldown: &e5 Seconds"));
+
+		im.setLore(lore);
+
+		i.setItemMeta(im);
+
+		return i;
+	}
+
+	public ItemStack skillTwo() {
+		ItemStack i = new ItemStack(Material.BOOK);
+		ItemMeta im = i.getItemMeta();
+		im.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aFull Metal Arrow &7(Right Click)"));
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Shoots on arrow that will call an"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7anvil upon it's target's head to inflict"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7big damage."));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Cooldown: &e10 Seconds"));
+
+		im.setLore(lore);
+
+		i.setItemMeta(im);
+
+		return i;
+	}
+
+	public ItemStack skillTwoDisc() {
+		ItemStack i = new ItemStack(Material.MUSIC_DISC_CHIRP);
+		ItemMeta im = i.getItemMeta();
+		im.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cFull Metal Arrow &7(Cooldown)"));
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Shoots on arrow that will call an"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7anvil upon it's target's head to inflict"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7big damage."));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Cooldown: &e10 Seconds"));
+
+		im.setLore(lore);
+
+		i.setItemMeta(im);
+
+		return i;
+	}
+
+	public ItemStack skillThree() {
+		ItemStack i = new ItemStack(Material.BOOK);
+		ItemMeta im = i.getItemMeta();
+		im.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aArcher's Glory &7(Right Click)"));
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Take a huge leap into the air descending slowly"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7and multiplying shot rate by 5 for a short"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7period of time."));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Cooldown: &e25 Seconds"));
+
+		im.setLore(lore);
+
+		i.setItemMeta(im);
+
+		return i;
+	}
+
+	public ItemStack skillThreeDisc() {
+		ItemStack i = new ItemStack(Material.MUSIC_DISC_CHIRP);
+		ItemMeta im = i.getItemMeta();
+		im.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cArcher's Glory &7(Cooldown)"));
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Take a huge leap into the air descending slowly"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7and multiplying shot rate by 5 for a short"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7period of time."));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Cooldown: &e25 Seconds"));
+
+		im.setLore(lore);
+
+		i.setItemMeta(im);
+
+		return i;
 	}
 
 }

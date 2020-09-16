@@ -107,6 +107,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(classSelector, this);
 		Bukkit.getServer().getPluginManager().registerEvents(statsmenu, this);
 		Bukkit.getServer().getPluginManager().registerEvents(stats, this);
+		Bukkit.getServer().getPluginManager().registerEvents(archerMain, this);
 
 	}
 
