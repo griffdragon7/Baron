@@ -12,6 +12,7 @@ public class Luck {
 	public Luck(ItemGenerator items) {
 		this.items = items;
 	}
+
 	public int tallyStat(Player p) {
 		int amount = 0;
 		try {
@@ -58,19 +59,21 @@ public class Luck {
 	}
 
 	public int getAmount(ItemMeta im) {
+		int amount = 0;
 		for (int x = 0; x < im.getLore().size(); x++) {
 			try {
-				if (ChatColor.translateAlternateColorCodes('&', " * &7Luck: &a").equalsIgnoreCase(im.getLore().get(x)
-						.substring(2, ChatColor.stripColor(items.healthLore).length() + 4))) {
+				if (ChatColor.translateAlternateColorCodes('&', " * &7Luck: &a").equalsIgnoreCase(
+						im.getLore().get(x).substring(2, ChatColor.stripColor(items.healthLore).length() + 4))) {
 
-					return Integer.parseInt(im.getLore().get(x).substring(im.getLore().get(x).lastIndexOf("a") + 1));
+					amount = amount
+							+ Integer.parseInt(im.getLore().get(x).substring(im.getLore().get(x).lastIndexOf("a") + 1));
 
 				}
 			} catch (StringIndexOutOfBoundsException e) {
 
 			}
 		}
-		return 0;
+		return amount;
 	}
 
 }

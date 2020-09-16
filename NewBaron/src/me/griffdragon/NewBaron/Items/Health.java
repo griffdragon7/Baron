@@ -64,6 +64,7 @@ public class Health {
 	}
 
 	public int getAmount(ItemMeta im, Player p) {
+		int amount = 0;
 		for (int x = 0; x < im.getLore().size(); x++) {
 			try {
 				if (ChatColor.translateAlternateColorCodes('&', " * &7Health: &a").equalsIgnoreCase(
@@ -72,9 +73,9 @@ public class Health {
 						double y = Integer.parseInt(im.getLore().get(x).substring(
 								im.getLore().get(x).lastIndexOf("a") + 1, im.getLore().get(x).lastIndexOf("%")));
 						y = y / 100;
-						return (int) (main.stats.getBaseHealth(p) * (y));
+						amount = amount + (int) (main.stats.getBaseHealth(p) * (y));
 					} else {
-						return Integer
+						amount = amount + Integer
 								.parseInt(im.getLore().get(x).substring(im.getLore().get(x).lastIndexOf("a") + 1));
 
 					}
@@ -83,7 +84,7 @@ public class Health {
 
 			}
 		}
-		return 0;
+		return amount;
 	}
 
 }

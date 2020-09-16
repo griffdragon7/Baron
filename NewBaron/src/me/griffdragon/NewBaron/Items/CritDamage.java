@@ -12,6 +12,7 @@ public class CritDamage {
 	public CritDamage(ItemGenerator items) {
 		this.items = items;
 	}
+
 	public int tallyStat(Player p) {
 		int amount = 0;
 		try {
@@ -59,26 +60,23 @@ public class CritDamage {
 	}
 
 	public int getAmount(ItemMeta im) {
+		int amount = 0;
 		for (int x = 0; x < im.getLore().size(); x++) {
 			try {
-				if (ChatColor.translateAlternateColorCodes('&', " * &7Crit Damage: &c").equalsIgnoreCase(im.getLore()
-						.get(x).substring(2, ChatColor.stripColor(items.healthLore).length() + 11))) {
+				if (ChatColor.translateAlternateColorCodes('&', " * &7Crit Damage: &c").equalsIgnoreCase(
+						im.getLore().get(x).substring(2, ChatColor.stripColor(items.healthLore).length() + 11))) {
 					if (im.getLore().get(x).substring(im.getLore().get(x).length() - 1).equalsIgnoreCase("%")) {
 						double y = Integer.parseInt(im.getLore().get(x).substring(
 								im.getLore().get(x).lastIndexOf("c") + 1, im.getLore().get(x).lastIndexOf("%")));
 
-						return (int) y;
-					} else {
-						return Integer
-								.parseInt(im.getLore().get(x).substring(im.getLore().get(x).lastIndexOf("c") + 1));
-
+						amount = amount + (int) y;
 					}
 				}
 			} catch (StringIndexOutOfBoundsException e) {
-				return 0;
+
 			}
 		}
-		return 0;
+		return amount;
 	}
 
 }

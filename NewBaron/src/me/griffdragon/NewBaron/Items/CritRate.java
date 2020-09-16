@@ -60,6 +60,7 @@ public class CritRate {
 	}
 
 	public int getAmount(ItemMeta im) {
+		int amount = 0;
 		for (int x = 0; x < im.getLore().size(); x++) {
 			try {
 				if (ChatColor.translateAlternateColorCodes('&', " * &7Crit Rate: &e").equalsIgnoreCase(
@@ -68,18 +69,14 @@ public class CritRate {
 						double y = Integer.parseInt(im.getLore().get(x).substring(
 								im.getLore().get(x).lastIndexOf("e") + 1, im.getLore().get(x).lastIndexOf("%")));
 
-						return (int) y;
-					} else {
-						return Integer
-								.parseInt(im.getLore().get(x).substring(im.getLore().get(x).lastIndexOf("e") + 1));
-
+						amount = amount + (int) y;
 					}
 				}
 			} catch (StringIndexOutOfBoundsException e) {
 
 			}
 		}
-		return 0;
+		return amount;
 	}
 
 }
