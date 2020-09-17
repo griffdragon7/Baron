@@ -1,6 +1,7 @@
 package me.griffdragon.NewBaron.Classes.Archer;
 
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -14,7 +15,7 @@ public class Primary {
 		if (archer.archerUltimate.contains(p)) {
 			new BukkitRunnable() {
 				int x = 0;
- 
+
 				@Override
 				public void run() {
 					x++;
@@ -28,6 +29,8 @@ public class Primary {
 					arrow.setKnockbackStrength(0);
 					p.playSound(loc, Sound.ENTITY_ARROW_SHOOT, 2, 2);
 					arrow.setMetadata(ArcherMain.primaryMetadata, new FixedMetadataValue(main, "arrowData"));
+					loc.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, loc.subtract(0, 1, 0), 1, 1, 1, 1, .2F);
+					loc.getWorld().spawnParticle(Particle.CLOUD, loc.subtract(0, 2, 0), 1, 0, 0, 0, 0);
 
 				}
 			}.runTaskTimer(main, 0, 2);

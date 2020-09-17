@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.griffdragon.NewBaron.BaronCore;
 import me.griffdragon.NewBaron.Classes.Archer.ArcherMain;
+import me.griffdragon.NewBaron.Classes.Cyromancer.CyroMain;
 import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
 import me.griffdragon.NewBaron.Items.CritDamage;
 import me.griffdragon.NewBaron.Items.CritRate;
@@ -35,6 +36,7 @@ public class StatsMain implements Listener {
 	private final BaronCore main;
 
 	private final ArcherMain archer;
+	private final CyroMain cryo;
 
 	private final ClassConfigFunctions files;
 
@@ -57,7 +59,7 @@ public class StatsMain implements Listener {
 	public static HashMap<Player, Integer> MagicDamage = new HashMap<Player, Integer>();
 
 	public StatsMain(Defence df, CritDamage cd, CritRate cr, Health hp, Luck lc, MagicDamage md, PhysicalDamage pd,
-			Speed sp, BaronCore main, ArcherMain archer, ClassConfigFunctions files) {
+			Speed sp, BaronCore main, CyroMain cryo, ArcherMain archer, ClassConfigFunctions files) {
 		this.main = main;
 		this.archer = archer;
 		this.files = files;
@@ -70,6 +72,7 @@ public class StatsMain implements Listener {
 		this.magicDamage = md;
 		this.physicalDamage = pd;
 		this.speed = sp;
+		this.cryo = cryo;
 	}
 
 	public BossBar b(Player p) {
@@ -229,9 +232,11 @@ public class StatsMain implements Listener {
 	public int getBaseHealth(Player p) {
 		HashMap<String, Integer> baseStat = new HashMap<String, Integer>();
 		baseStat.put(main.archer, archer.Health);
+		baseStat.put(main.cryomancer, cryo.Health);
 
 		HashMap<String, Integer> statModifier = new HashMap<String, Integer>();
 		statModifier.put(main.archer, archer.HealthModifier);
+		statModifier.put(main.cryomancer, cryo.HealthModifier);
 
 		return statModifier.get(files.getClass(p)) * files.getClassLevel(p, files.getClass(p))
 				+ baseStat.get(files.getClass(p));
@@ -240,9 +245,11 @@ public class StatsMain implements Listener {
 	public int getBaseCritDamage(Player p) {
 		HashMap<String, Integer> baseStat = new HashMap<String, Integer>();
 		baseStat.put(main.archer, archer.CritDamage);
+		baseStat.put(main.cryomancer, cryo.CritDamage);
 
 		HashMap<String, Integer> statModifier = new HashMap<String, Integer>();
 		statModifier.put(main.archer, archer.CritDamageModifier);
+		statModifier.put(main.cryomancer, cryo.CritDamageModifier);
 
 		return statModifier.get(files.getClass(p)) * files.getClassLevel(p, files.getClass(p))
 				+ baseStat.get(files.getClass(p));
@@ -251,9 +258,11 @@ public class StatsMain implements Listener {
 	public int getBaseCritRate(Player p) {
 		HashMap<String, Integer> baseStat = new HashMap<String, Integer>();
 		baseStat.put(main.archer, archer.CritRate);
+		baseStat.put(main.cryomancer, cryo.CritRate);
 
 		HashMap<String, Integer> statModifier = new HashMap<String, Integer>();
 		statModifier.put(main.archer, archer.CritRateModifier);
+		statModifier.put(main.cryomancer, cryo.CritRateModifier);
 
 		return statModifier.get(files.getClass(p)) * files.getClassLevel(p, files.getClass(p))
 				+ baseStat.get(files.getClass(p));
@@ -262,9 +271,11 @@ public class StatsMain implements Listener {
 	public int getBasePhysicalDamage(Player p) {
 		HashMap<String, Integer> baseStat = new HashMap<String, Integer>();
 		baseStat.put(main.archer, archer.PhysicalDamage);
+		baseStat.put(main.cryomancer, cryo.PhysicalDamage);
 
 		HashMap<String, Integer> statModifier = new HashMap<String, Integer>();
 		statModifier.put(main.archer, archer.PhysicalModifier);
+		statModifier.put(main.cryomancer, cryo.PhysicalModifier);
 
 		return statModifier.get(files.getClass(p)) * files.getClassLevel(p, files.getClass(p))
 				+ baseStat.get(files.getClass(p));
@@ -273,9 +284,11 @@ public class StatsMain implements Listener {
 	public int getBaseMagicDamage(Player p) {
 		HashMap<String, Integer> baseStat = new HashMap<String, Integer>();
 		baseStat.put(main.archer, archer.MagicDamage);
+		baseStat.put(main.cryomancer, cryo.MagicDamage);
 
 		HashMap<String, Integer> statModifier = new HashMap<String, Integer>();
 		statModifier.put(main.archer, archer.MagicModifier);
+		statModifier.put(main.cryomancer, cryo.MagicModifier);
 
 		return statModifier.get(files.getClass(p)) * files.getClassLevel(p, files.getClass(p))
 				+ baseStat.get(files.getClass(p));
@@ -284,9 +297,11 @@ public class StatsMain implements Listener {
 	public int getBaseLuck(Player p) {
 		HashMap<String, Integer> baseStat = new HashMap<String, Integer>();
 		baseStat.put(main.archer, archer.Luck);
+		baseStat.put(main.cryomancer, cryo.Luck);
 
 		HashMap<String, Integer> statModifier = new HashMap<String, Integer>();
 		statModifier.put(main.archer, archer.LuckModifier);
+		statModifier.put(main.cryomancer, cryo.LuckModifier);
 
 		return statModifier.get(files.getClass(p)) * files.getClassLevel(p, files.getClass(p))
 				+ baseStat.get(files.getClass(p));
@@ -295,9 +310,11 @@ public class StatsMain implements Listener {
 	public int getBaseSpeed(Player p) {
 		HashMap<String, Integer> baseStat = new HashMap<String, Integer>();
 		baseStat.put(main.archer, archer.Speed);
+		baseStat.put(main.cryomancer, cryo.Speed);
 
 		HashMap<String, Integer> statModifier = new HashMap<String, Integer>();
 		statModifier.put(main.archer, archer.speedModifier);
+		statModifier.put(main.cryomancer, cryo.speedModifier);
 
 		return statModifier.get(files.getClass(p)) * files.getClassLevel(p, files.getClass(p))
 				+ baseStat.get(files.getClass(p));
@@ -306,9 +323,11 @@ public class StatsMain implements Listener {
 	public int getBaseDefence(Player p) {
 		HashMap<String, Integer> baseStat = new HashMap<String, Integer>();
 		baseStat.put(main.archer, archer.Defence);
+		baseStat.put(main.cryomancer, cryo.Defence);
 
 		HashMap<String, Integer> statModifier = new HashMap<String, Integer>();
 		statModifier.put(main.archer, archer.DefenceModifier);
+		statModifier.put(main.cryomancer, cryo.DefenceModifier);
 
 		return statModifier.get(files.getClass(p)) * files.getClassLevel(p, files.getClass(p))
 				+ baseStat.get(files.getClass(p));

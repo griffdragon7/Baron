@@ -60,10 +60,10 @@ public class BaronCore extends JavaPlugin implements Listener {
 	RangerMain rangerMain = new RangerMain();
 
 	PyroMain pyromancerMain = new PyroMain();
-	CyroMain cryomancerMain = new CyroMain();
+	CyroMain cryomancerMain = new CyroMain(this, files);
 	GeoMain geomancerMain = new GeoMain();
 
-	public StatsMain stats = new StatsMain(df, cd, cr, hp, lc, md, pd, sp, this, archerMain, files);
+	public StatsMain stats = new StatsMain(df, cd, cr, hp, lc, md, pd, sp, this, cryomancerMain, archerMain, files);
 
 	// register events
 	PlayerEvents playerEvents = new PlayerEvents(files, stats, this);
@@ -107,6 +107,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 		Bukkit.getServer().getPluginManager().registerEvents(statsmenu, this);
 		Bukkit.getServer().getPluginManager().registerEvents(stats, this);
 		Bukkit.getServer().getPluginManager().registerEvents(archerMain, this);
+		Bukkit.getServer().getPluginManager().registerEvents(cryomancerMain, this);
 
 	}
 
