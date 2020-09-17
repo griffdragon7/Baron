@@ -88,7 +88,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 			StatsMain.PhysicalDamage.put(p, stats.getPhysicalDamage(p));
 			StatsMain.MagicDamage.put(p, stats.getMagicDamage(p));
 		}
-
+ 
 		physicalClasses.add("Archer");
 
 		magicalClasses.add("Cryomancer");

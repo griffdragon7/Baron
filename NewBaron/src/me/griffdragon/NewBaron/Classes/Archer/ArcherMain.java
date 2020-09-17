@@ -26,11 +26,10 @@ public class ArcherMain implements Listener {
 		this.config = config;
 		this.main = main;
 	}
-	
-	//arraylist for ultimate
+
+	// arraylist for ultimate
 	public ArrayList<Player> archerUltimate = new ArrayList<Player>();
-	
-	
+
 	// cooldowns for skills
 	public ArrayList<Player> primaryCooldown = new ArrayList<Player>();
 	public ArrayList<Player> skill1Cooldown = new ArrayList<Player>();
@@ -108,19 +107,45 @@ public class ArcherMain implements Listener {
 				} else if (p.getInventory().getHeldItemSlot() == 1) {
 					if (!skill1Cooldown.contains(p)) {
 						skill1Cooldown.add(p);
-
+						new SkillOne(main, this, p);
+						p.getInventory().setItem(1, skillOneDisc());
 						new BukkitRunnable() {
 
 							public void run() {
+								p.getInventory().setItem(1, skillOne());
 								skill1Cooldown.remove(p);
 
 							}
 						}.runTaskLater(main, (long) skill1CooldownTime * 20);
 					}
 				} else if (p.getInventory().getHeldItemSlot() == 2) {
+					if (!skill2Cooldown.contains(p)) {
+						skill2Cooldown.add(p);
+						new SkillTwo(main, p);
+						p.getInventory().setItem(1, skillTwoDisc());
+						new BukkitRunnable() {
 
+							public void run() {
+								p.getInventory().setItem(1, skillTwo());
+								skill2Cooldown.remove(p);
+
+							}
+						}.runTaskLater(main, (long) skill2CooldownTime * 20);
+					}
 				} else if (p.getInventory().getHeldItemSlot() == 3) {
+					if (!skill3Cooldown.contains(p)) {
+						skill3Cooldown.add(p);
+						new SkillThree(p, main, this);
+						p.getInventory().setItem(1, skillThreeDisc());
+						new BukkitRunnable() {
 
+							public void run() {
+								p.getInventory().setItem(1, skillThree());
+								skill3Cooldown.remove(p);
+
+							}
+						}.runTaskLater(main, (long) skill3CooldownTime * 20);
+					}
 				}
 			}
 		}
@@ -163,9 +188,9 @@ public class ArcherMain implements Listener {
 		ItemMeta im = i.getItemMeta();
 		im.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aFull Metal Arrow &7(Right Click)"));
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Shoots on arrow that will call an"));
-		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7anvil upon it's target's head to inflict"));
-		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7big damage."));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Launches a giant anvil from"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7your bow to deal more damage"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7proportionate to distance."));
 		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Cooldown: &e10 Seconds"));
 
 		im.setLore(lore);
@@ -180,9 +205,9 @@ public class ArcherMain implements Listener {
 		ItemMeta im = i.getItemMeta();
 		im.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cFull Metal Arrow &7(Cooldown)"));
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Shoots on arrow that will call an"));
-		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7anvil upon it's target's head to inflict"));
-		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7big damage."));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Launches a giant anvil from"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7your bow to deal more damage"));
+		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7proportionate to distance."));
 		lore.add(ChatColor.translateAlternateColorCodes('&', " &a* &7Cooldown: &e10 Seconds"));
 
 		im.setLore(lore);

@@ -64,6 +64,29 @@ public class DamageSystem implements Listener {
 	}
 
 	@EventHandler
+	public void magicDamageMessage(EntityDamageByEntityEvent e) {
+		if (e.getEntity() instanceof LivingEntity) {
+			LivingEntity ent = (LivingEntity) e.getEntity();
+			if (e.getDamager() instanceof Player) {
+				Player p = (Player) e.getDamager();
+				if (e.getCause() == DamageCause.CUSTOM) {
+					// get a proprtion for the enemies hp
+					double fakeHPProp = ent.getHealth() / ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+					// multiply proportion by enemyHP to get fake hp left
+					int hpNumber = (int) ((fakeHPProp * determineEnemyHp(ent)));
+
+					double damageProportion = e.getDamage() / ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+
+					double damage = damageProportion * determineEnemyHp(ent);
+
+					sendActionbar(p, ChatColor.translateAlternateColorCodes('&', "&7Damage Dealt: &c" + damage
+							+ " &8 | &7Mob Health: &6" + hpNumber + "/" + (int) determineEnemyHp(ent)));
+				}
+			}
+		}
+	}
+
+	@EventHandler
 	public void playerArrowDamages(EntityDamageByEntityEvent e) {
 		if (e.getEntity() instanceof LivingEntity) {
 			LivingEntity ent = (LivingEntity) e.getEntity();
@@ -90,7 +113,7 @@ public class DamageSystem implements Listener {
 												+ hpNumber + "/" + (int) determineEnemyHp(ent)));
 					}
 					if (arrow.hasMetadata(ArcherMain.skillOneMetadata)) {
-						
+
 					}
 				}
 			}

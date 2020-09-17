@@ -13,7 +13,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import me.griffdragon.NewBaron.BaronCore;
 
 public class SkillTwo {
-
+ 
 	public SkillTwo(BaronCore main, Player p) {
 		Location loc = p.getLocation();
 		loc.add(0, 1.5, 0);
