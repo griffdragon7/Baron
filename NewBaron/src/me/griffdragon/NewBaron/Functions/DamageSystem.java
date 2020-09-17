@@ -11,9 +11,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import me.griffdragon.NewBaron.BaronCore;
-import me.griffdragon.NewBaron.Classes.Archer.ArcherMain;
 import me.griffdragon.NewBaron.Mobs.BasicMobs;
 import me.griffdragon.NewBaron.Stats.StatsMain;
 import net.md_5.bungee.api.ChatColor;
@@ -24,9 +25,11 @@ public class DamageSystem implements Listener {
 
 	private final ClassConfigFunctions files;
 	private final BasicMobs mobs;
+	private final BaronCore main;
 
-	public DamageSystem(ClassConfigFunctions files, BasicMobs mobs) {
+	public DamageSystem(ClassConfigFunctions files, BaronCore main, BasicMobs mobs) {
 		this.files = files;
+		this.main = main;
 		this.mobs = mobs;
 	}
 
@@ -42,21 +45,12 @@ public class DamageSystem implements Listener {
 			if (e.getDamager() instanceof Player) {
 				if (e.getCause() == DamageCause.ENTITY_ATTACK) {
 					Player p = (Player) e.getDamager();
-					String color = "&c";
 
 					double proportion = determineProportion(p, ent);
 					// multiply the proportion by the real amount of hp to get actual damage
 					double finaldamage = proportion * ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 
 					e.setDamage(finaldamage);
-					// get a proprtion for the enemies hp
-					double fakeHPProp = ent.getHealth() / ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-					// multiply proportion by enemyHP to get fake hp left
-					int hpNumber = (int) ((fakeHPProp * determineEnemyHp(ent)) - determineDamage(p, ent));
-					sendActionbar(p,
-							ChatColor.translateAlternateColorCodes('&',
-									"&7Damage Dealt: " + color + determineDamage(p, ent) + " &8 | &7Mob Health: &6"
-											+ hpNumber + "/" + (int) determineEnemyHp(ent)));
 
 				}
 			}
@@ -69,57 +63,62 @@ public class DamageSystem implements Listener {
 			LivingEntity ent = (LivingEntity) e.getEntity();
 			if (e.getDamager() instanceof Player) {
 				Player p = (Player) e.getDamager();
-				if (e.getCause() == DamageCause.CUSTOM) {
-					// get a proprtion for the enemies hp
-					double fakeHPProp = ent.getHealth() / ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-					// multiply proportion by enemyHP to get fake hp left
-					int hpNumber = (int) ((fakeHPProp * determineEnemyHp(ent)));
+				// get a proprtion for the enemies hp
+				new BukkitRunnable() {
 
-					double damageProportion = e.getDamage() / ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+					@Override
+					public void run() {
+						double fakeHPProp = ent.getHealth() / ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+						// multiply proportion by enemyHP to get fake hp left
 
-					double damage = damageProportion * determineEnemyHp(ent);
+						double damageProportion = e.getDamage()
+								/ ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 
-					sendActionbar(p, ChatColor.translateAlternateColorCodes('&', "&7Damage Dealt: &c" + damage
-							+ " &8 | &7Mob Health: &6" + hpNumber + "/" + (int) determineEnemyHp(ent)));
-				}
+						double damage = damageProportion * determineEnemyHp(ent);
+
+						int hpNumber = (int) (fakeHPProp * determineEnemyHp(ent));
+
+						sendActionbar(p, ChatColor.translateAlternateColorCodes('&', "&7Damage Dealt: &c" + damage
+								+ " &8 | &7Mob Health: &6" + hpNumber + "/" + (int) determineEnemyHp(ent)));
+					}
+				}.runTaskLater(main, 1);
+
 			}
-		}
-	}
-
-	@EventHandler
-	public void playerArrowDamages(EntityDamageByEntityEvent e) {
-		if (e.getEntity() instanceof LivingEntity) {
-			LivingEntity ent = (LivingEntity) e.getEntity();
 			if (e.getDamager() instanceof Arrow) {
-
 				Arrow arrow = (Arrow) e.getDamager();
 				if (arrow.getShooter() instanceof Player) {
 					Player p = (Player) arrow.getShooter();
-					if (arrow.hasMetadata(ArcherMain.primaryMetadata)) {
+					new BukkitRunnable() {
 
-						String color = "&c";
-						double proportion = determineProportion(p, ent);
-						// multiply the proportion by the real amount of hp to get actual damage
-						double finaldamage = proportion * ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+						@Override
+						public void run() {
+							double fakeHPProp = ent.getHealth()
+									/ ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+							// multiply proportion by enemyHP to get fake hp left
 
-						e.setDamage(finaldamage);
-						// get a proprtion for the enemies hp
-						double fakeHPProp = ent.getHealth() / ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-						// multiply proportion by enemyHP to get fake hp left
-						int hpNumber = (int) ((fakeHPProp * determineEnemyHp(ent)) - determineDamage(p, ent));
-						sendActionbar(p,
-								ChatColor.translateAlternateColorCodes('&',
-										"&7Damage Dealt: " + color + determineDamage(p, ent) + " &8 | &7Mob Health: &6"
-												+ hpNumber + "/" + (int) determineEnemyHp(ent)));
-					}
-					if (arrow.hasMetadata(ArcherMain.skillOneMetadata)) {
+							double damageProportion = e.getDamage()
+									/ ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 
-					}
+							double damage = damageProportion * determineEnemyHp(ent);
+
+							int hpNumber = (int) (fakeHPProp * determineEnemyHp(ent));
+
+							sendActionbar(p, ChatColor.translateAlternateColorCodes('&', "&7Damage Dealt: &c" + (int) damage
+									+ " &8 | &7Mob Health: &6" + hpNumber + "/" + (int) determineEnemyHp(ent)));
+						}
+					}.runTaskLater(main, 1);
 				}
 			}
 		}
-
 	}
+	
+	@EventHandler
+	public void removeArrows(ProjectileHitEvent e) {
+		if (e.getEntity() instanceof Arrow) {
+			e.getEntity().remove();
+		}
+	}
+	
 
 	public double determineProportion(Player p, Entity ent) {
 

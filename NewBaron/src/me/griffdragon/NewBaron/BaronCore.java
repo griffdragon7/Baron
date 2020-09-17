@@ -51,9 +51,11 @@ public class BaronCore extends JavaPlugin implements Listener {
 	Defence df = new Defence(items);
 
 	StatsMenu statsmenu = new StatsMenu(files);
+	BasicMobs basicmobs = new BasicMobs();
+	DamageSystem damageSystem = new DamageSystem(files, this, basicmobs);
 
 	// register classes
-	ArcherMain archerMain = new ArcherMain(this, files);
+	ArcherMain archerMain = new ArcherMain(this, files, damageSystem);
 	HunterMain hunterMain = new HunterMain();
 	RangerMain rangerMain = new RangerMain();
 
@@ -63,13 +65,10 @@ public class BaronCore extends JavaPlugin implements Listener {
 
 	public StatsMain stats = new StatsMain(df, cd, cr, hp, lc, md, pd, sp, this, archerMain, files);
 
-	BasicMobs basicmobs = new BasicMobs();
-
 	// register events
 	PlayerEvents playerEvents = new PlayerEvents(files, stats, this);
 	WorldEvents worldEvents = new WorldEvents(this);
 	ExpSystem expSystem = new ExpSystem(files);
-	DamageSystem damageSystem = new DamageSystem(files, basicmobs);
 
 	ClassSelector classSelector = new ClassSelector(files, geomancerMain, pyromancerMain, cryomancerMain, hunterMain,
 			rangerMain, archerMain, this);
@@ -88,7 +87,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 			StatsMain.PhysicalDamage.put(p, stats.getPhysicalDamage(p));
 			StatsMain.MagicDamage.put(p, stats.getMagicDamage(p));
 		}
- 
+
 		physicalClasses.add("Archer");
 
 		magicalClasses.add("Cryomancer");

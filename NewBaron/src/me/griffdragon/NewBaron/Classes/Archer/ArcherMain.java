@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -15,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.griffdragon.NewBaron.BaronCore;
 import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
+import me.griffdragon.NewBaron.Functions.DamageSystem;
 
 public class ArcherMain implements Listener {
 
@@ -22,9 +27,12 @@ public class ArcherMain implements Listener {
 
 	private final BaronCore main;
 
-	public ArcherMain(BaronCore main, ClassConfigFunctions config) {
+	private final DamageSystem damageSystem;
+
+	public ArcherMain(BaronCore main, ClassConfigFunctions config, DamageSystem damageSystem) {
 		this.config = config;
 		this.main = main;
+		this.damageSystem = damageSystem;
 	}
 
 	// arraylist for ultimate
@@ -37,7 +45,7 @@ public class ArcherMain implements Listener {
 	public ArrayList<Player> skill3Cooldown = new ArrayList<Player>();
 
 	// cooldown times (in seconds)
-	public double primaryCooldownTime = .7;
+	public double primaryCooldownTime = .5;
 	public double skill1CooldownTime = 10;
 	public double skill2CooldownTime = 20;
 	public double skill3CooldownTime = 30;
@@ -48,6 +56,12 @@ public class ArcherMain implements Listener {
 	public static String skillOneMetadata = "archerOne";
 	public static String skillTwoMetadata = "archerTwo";
 	public static String skillThreeMetadata = "archerThree";
+
+	// skill multipliers
+	public double primaryMultiplier = 1;
+	public double skill1Multiplier = 3;
+	public double skill2Multiplier = 1;
+	public double skill3Multiplier = 1;
 
 	// Base Stats
 
@@ -86,6 +100,44 @@ public class ArcherMain implements Listener {
 	public int LuckModifier = 0;
 
 	@EventHandler
+	public void playerArrowDamages(EntityDamageByEntityEvent e) {
+		if (e.getEntity() instanceof LivingEntity) {
+			LivingEntity ent = (LivingEntity) e.getEntity();
+			if (e.getDamager() instanceof Arrow) {
+
+				Arrow arrow = (Arrow) e.getDamager();
+				if (arrow.getShooter() instanceof Player) {
+					Player p = (Player) arrow.getShooter();
+					if (arrow.hasMetadata(ArcherMain.primaryMetadata)) {
+
+						double proportion = damageSystem.determineProportion(p, ent);
+						// multiply the proportion by the real amount of hp to get actual damage
+						double finaldamage = proportion * ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+
+						e.setDamage(finaldamage);
+
+					}
+					if (arrow.hasMetadata(ArcherMain.skillOneMetadata)) {
+						double proportion = damageSystem.determineProportion(p, ent);
+						// multiply the proportion by the real amount of hp to get actual damage
+						double finaldamage = proportion * ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+
+						e.setDamage(finaldamage * skill1Multiplier);
+					}
+					if (arrow.hasMetadata(ArcherMain.skillTwoMetadata)) {
+						double proportion = damageSystem.determineProportion(p, ent);
+						// multiply the proportion by the real amount of hp to get actual damage
+						double finaldamage = proportion * ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+
+						e.setDamage(finaldamage * ((p.getLocation().distance(ent.getLocation()) / 15) + 1));
+					}
+				}
+			}
+		}
+
+	}
+
+	@EventHandler
 	public void archerSkills(PlayerInteractEvent e) {
 		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			Player p = e.getPlayer();
@@ -101,7 +153,7 @@ public class ArcherMain implements Listener {
 									primaryCooldown.remove(p);
 
 								}
-							}.runTaskLater(main, (long) primaryCooldownTime * 20);
+							}.runTaskLater(main, (long) (primaryCooldownTime * 20));
 						}
 					}
 				} else if (p.getInventory().getHeldItemSlot() == 1) {
@@ -122,11 +174,11 @@ public class ArcherMain implements Listener {
 					if (!skill2Cooldown.contains(p)) {
 						skill2Cooldown.add(p);
 						new SkillTwo(main, p);
-						p.getInventory().setItem(1, skillTwoDisc());
+						p.getInventory().setItem(2, skillTwoDisc());
 						new BukkitRunnable() {
 
 							public void run() {
-								p.getInventory().setItem(1, skillTwo());
+								p.getInventory().setItem(2, skillTwo());
 								skill2Cooldown.remove(p);
 
 							}
@@ -136,11 +188,11 @@ public class ArcherMain implements Listener {
 					if (!skill3Cooldown.contains(p)) {
 						skill3Cooldown.add(p);
 						new SkillThree(p, main, this);
-						p.getInventory().setItem(1, skillThreeDisc());
+						p.getInventory().setItem(3, skillThreeDisc());
 						new BukkitRunnable() {
 
 							public void run() {
-								p.getInventory().setItem(1, skillThree());
+								p.getInventory().setItem(3, skillThree());
 								skill3Cooldown.remove(p);
 
 							}
