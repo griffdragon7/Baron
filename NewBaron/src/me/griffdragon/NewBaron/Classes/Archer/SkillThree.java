@@ -8,10 +8,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import me.griffdragon.NewBaron.BaronCore;
+import me.griffdragon.NewBaron.Skills;
 
-public class SkillThree {
+public class SkillThree extends Skills {
 
 	public SkillThree(Player p, BaronCore main, ArcherMain archer) {
+		super(main);
 		p.setVelocity(new Vector(0, 2, 0));
 		p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 120, 3));
 		archer.archerUltimate.add(p);

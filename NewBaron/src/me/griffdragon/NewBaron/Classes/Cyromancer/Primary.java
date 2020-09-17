@@ -7,6 +7,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -17,11 +18,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import me.griffdragon.NewBaron.BaronCore;
-import me.griffdragon.NewBaron.Stats.StatsMain;
+import me.griffdragon.NewBaron.Functions.DamageSystem;
 
 public class Primary {
 
-	public Primary(BaronCore main, Player p) {
+	public Primary(BaronCore main, Player p, DamageSystem damageSystem) {
 		Random rand = new Random();
 
 		p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_FLAP, 10, 10);
@@ -64,7 +65,9 @@ public class Primary {
 
 										}
 									}.runTaskLater(main, 2l);
-									((LivingEntity) es).damage(StatsMain.MagicDamage.get(p), p);
+									double damage = damageSystem.determineProportion(p, es)
+											* ((LivingEntity) es).getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+									((LivingEntity) es).damage(damage, p);
 
 									((LivingEntity) es).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20, 0));
 									p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1);

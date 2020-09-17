@@ -39,7 +39,7 @@ public class DamageSystem implements Listener {
 
 	@EventHandler
 	public void onPlayerDamage(EntityDamageByEntityEvent e) {
-
+		//DEFAULT MINECRAFT ATTACK
 		if (e.getEntity() instanceof LivingEntity) {
 			LivingEntity ent = (LivingEntity) e.getEntity();
 			if (e.getDamager() instanceof Player) {
@@ -61,6 +61,7 @@ public class DamageSystem implements Listener {
 	public void magicDamageMessage(EntityDamageByEntityEvent e) {
 		if (e.getEntity() instanceof LivingEntity) {
 			LivingEntity ent = (LivingEntity) e.getEntity();
+			//SENDING DAMAGE MESSAGES
 			if (e.getDamager() instanceof Player) {
 				Player p = (Player) e.getDamager();
 				// get a proprtion for the enemies hp
@@ -84,6 +85,7 @@ public class DamageSystem implements Listener {
 				}.runTaskLater(main, 1);
 
 			}
+			//ARROW DAMAGE MANAGER
 			if (e.getDamager() instanceof Arrow) {
 				Arrow arrow = (Arrow) e.getDamager();
 				if (arrow.getShooter() instanceof Player) {

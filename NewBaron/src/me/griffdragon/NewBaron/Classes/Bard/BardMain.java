@@ -1,4 +1,4 @@
-package me.griffdragon.NewBaron.Classes.Cyromancer;
+package me.griffdragon.NewBaron.Classes.Bard;
 
 import java.util.ArrayList;
 
@@ -17,12 +17,12 @@ import me.griffdragon.NewBaron.Classes.Archer.SkillTwo;
 import me.griffdragon.NewBaron.Functions.ClassConfigFunctions;
 import net.md_5.bungee.api.ChatColor;
 
-public class CyroMain implements Listener {
+public class BardMain implements Listener {
 
 	private final BaronCore main;
 	private final ClassConfigFunctions config;
 
-	public CyroMain(BaronCore main, ClassConfigFunctions config) {
+	public BardMain(BaronCore main, ClassConfigFunctions config) {
 		this.main = main;
 		this.config = config;
 	}
@@ -41,10 +41,8 @@ public class CyroMain implements Listener {
 
 	// metadata for arrows
 
-	public static String primaryMetadata = "archerPrimary";
-	public static String skillOneMetadata = "archerOne";
-	public static String skillTwoMetadata = "archerTwo";
-	public static String skillThreeMetadata = "archerThree";
+	public static String healPotionData = "healPotion";
+	public static String damagePotionData = "damagePotion";
 
 	// skill multipliers
 	public double primaryMultiplier = 1;
@@ -53,9 +51,9 @@ public class CyroMain implements Listener {
 	public double skill3Multiplier = 1;
 	// Base Stats
 
-	public int PhysicalDamage = 120;
+	public int PhysicalDamage = 0;
 
-	public int MagicDamage = 0;
+	public int MagicDamage = 120;
 
 	public int Health = 320;
 
@@ -71,9 +69,9 @@ public class CyroMain implements Listener {
 
 	// Leveling Modifiers
 
-	public int PhysicalModifier = 15;
+	public int PhysicalModifier = 0;
 
-	public int MagicModifier = 0;
+	public int MagicModifier = 15;
 
 	public int HealthModifier = 130;
 
@@ -89,8 +87,7 @@ public class CyroMain implements Listener {
 
 	@EventHandler
 	public void skills(PlayerInteractEvent e) {
-		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-				|| e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+		if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			Player p = e.getPlayer();
 			if (config.getClass(p).equalsIgnoreCase(main.cryomancer)) {
 				// primary
@@ -98,7 +95,7 @@ public class CyroMain implements Listener {
 					if (e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.STICK)) {
 						if (!primaryCooldown.contains(p)) {
 							primaryCooldown.add(p);
-							new me.griffdragon.NewBaron.Classes.Cyromancer.Primary(main, p, main.damageSystem);
+
 							new BukkitRunnable() {
 
 								public void run() {
@@ -112,7 +109,7 @@ public class CyroMain implements Listener {
 					// skill1
 					if (!skill1Cooldown.contains(p)) {
 						skill1Cooldown.add(p);
-						new SkillOne(main, p, main.damageSystem, this);
+
 						p.getInventory().setItem(1, skillOneDisc());
 						new BukkitRunnable() {
 

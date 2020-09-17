@@ -9,10 +9,13 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.griffdragon.NewBaron.BaronCore;
+import me.griffdragon.NewBaron.Skills;
 
-public class SkillOne {
+public class SkillOne extends Skills {
 
 	public SkillOne(BaronCore main, ArcherMain archer, Player p) {
+		super(main);
+
 		Location loc = p.getLocation();
 		loc.add(0, 1.5, 0);
 		Arrow arrow = p.getWorld().spawnArrow(loc, loc.getDirection(), 4, 1);

@@ -52,7 +52,7 @@ public class BaronCore extends JavaPlugin implements Listener {
 
 	StatsMenu statsmenu = new StatsMenu(files);
 	BasicMobs basicmobs = new BasicMobs();
-	DamageSystem damageSystem = new DamageSystem(files, this, basicmobs);
+	public DamageSystem damageSystem = new DamageSystem(files, this, basicmobs);
 
 	// register classes
 	ArcherMain archerMain = new ArcherMain(this, files, damageSystem);
@@ -75,6 +75,8 @@ public class BaronCore extends JavaPlugin implements Listener {
 
 	public static ArrayList<String> physicalClasses = new ArrayList<>();
 	public static ArrayList<String> magicalClasses = new ArrayList<>();
+
+	
 
 	public void onEnable() {
 		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -132,6 +134,8 @@ public class BaronCore extends JavaPlugin implements Listener {
 	public String pyromancer = "Pyromancer";
 
 	public String warrior = "Warrior";
+
+	public String alchemist = "Alchemist";
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]) {
 		if (sender instanceof Player) {

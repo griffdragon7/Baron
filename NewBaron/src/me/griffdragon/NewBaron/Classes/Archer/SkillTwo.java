@@ -10,10 +10,12 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.griffdragon.NewBaron.BaronCore;
+import me.griffdragon.NewBaron.Skills;
 
-public class SkillTwo {
+public class SkillTwo extends Skills {
 
 	public SkillTwo(BaronCore main, Player p) {
+		super(main);
 		Location loc = p.getLocation();
 		loc.add(0, 1.5, 0);
 

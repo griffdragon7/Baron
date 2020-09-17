@@ -9,9 +9,13 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.griffdragon.NewBaron.BaronCore;
+import me.griffdragon.NewBaron.Skills;
 
-public class Primary {
+public class Primary extends Skills {
+
 	public Primary(BaronCore main, ArcherMain archer, Player p) {
+		super(main);
+
 		if (archer.archerUltimate.contains(p)) {
 			new BukkitRunnable() {
 				int x = 0;
